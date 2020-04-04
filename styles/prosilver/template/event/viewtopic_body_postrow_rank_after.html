@@ -1,0 +1,8 @@
+{% if (postrow.VBLOG_POST_OWNER and VBLOG_AUTH_VBLOG) or VBLOG_AUTH_ADM_MOD or VBLOG_AUTH_USER_GALLERIES %}
+	<dd>
+		<strong>{{ lang('VBLOG_USER') ~ lang('COLON') }}</strong>
+		<a href="{{ path('phpbbstudio_vblog_controller')  ~ postrow.VBLOG_POSTER_NAME }}" title="{{ lang('VBLOG_USER') }}">
+			<i class="icon fa-film fa-fw" aria-hidden="true"></i><span></span>
+		</a>
+	</dd>
+{% endif %}

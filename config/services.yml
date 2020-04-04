@@ -1,0 +1,65 @@
+parameters:
+    phpbbstudio.vblog.galleries: '%core.table_prefix%phpbbstudio_vblog_galleries'
+    phpbbstudio.vblog.videos: '%core.table_prefix%phpbbstudio_vblog_videos'
+    phpbbstudio.vblog.comments: '%core.table_prefix%phpbbstudio_vblog_comments'
+    phpbbstudio.vblog.categories: '%core.table_prefix%phpbbstudio_vblog_categories'
+    phpbbstudio.vblog.subscriptions: '%core.table_prefix%phpbbstudio_vblog_subscriptions'
+    phpbbstudio.vblog.likes: '%core.table_prefix%phpbbstudio_vblog_likes'
+
+imports:
+    - { resource: notifications.yml }
+
+services:
+    _defaults:
+        autowire: true
+        bind:
+            $root_path: '%core.root_path%'
+            $php_ext: '%core.php_ext%'
+            $tables: '%tables%'
+            $gal_table: '%phpbbstudio.vblog.galleries%'
+            $vid_table: '%phpbbstudio.vblog.videos%'
+            $com_table: '%phpbbstudio.vblog.comments%'
+            $cat_table: '%phpbbstudio.vblog.categories%'
+            $sub_table: '%phpbbstudio.vblog.subscriptions%'
+            $lik_table: '%phpbbstudio.vblog.likes%'
+
+    phpbbstudio.vblog.controller.main:
+        class: phpbbstudio\vblog\controller\main
+
+    phpbbstudio.vblog.operator.category:
+        class: phpbbstudio\vblog\operator\category
+
+    phpbbstudio.vblog.operator.gallery:
+        class: phpbbstudio\vblog\operator\gallery
+
+    phpbbstudio.vblog.operator.video:
+        class: phpbbstudio\vblog\operator\video
+
+    phpbbstudio.vblog.operator.common:
+        class: phpbbstudio\vblog\operator\common
+
+    phpbbstudio.vblog.operator.editor:
+        class: phpbbstudio\vblog\operator\editor
+
+    phpbbstudio.vblog.operator.comment:
+        class: phpbbstudio\vblog\operator\comment
+
+    phpbbstudio.vblog.operator.vote:
+        class: phpbbstudio\vblog\operator\vote
+
+    phpbbstudio.vblog.controller.vblog:
+        class: phpbbstudio\vblog\controller\vblog
+
+    phpbbstudio.vblog.controller.acp:
+        class: phpbbstudio\vblog\controller\acp
+
+    phpbbstudio.vblog.controller.ucp:
+        class: phpbbstudio\vblog\controller\ucp
+
+    phpbbstudio.vblog.listener.main:
+        class: phpbbstudio\vblog\event\main
+        tags: [{name: event.listener}]
+
+    phpbbstudio.vblog.listener.embed:
+        class: phpbbstudio\vblog\event\embed
+        tags: [{name: event.listener}]

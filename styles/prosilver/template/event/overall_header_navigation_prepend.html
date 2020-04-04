@@ -1,0 +1,7 @@
+{% if VBLOG_AUTH_VGALLERY or VBLOG_AUTH_ADM_MOD %}
+	<li data-last-responsive="true">
+		<a href="{{ path('phpbbstudio_vgallery_controller') }}" title="{{ lang('VBLOG_PAGE') }}" role="menuitem">
+			<i class="icon fa-file-video-o fa-fw" aria-hidden="true"></i><span>{{ lang('VBLOG_PAGE') }}</span>
+		</a>
+	</li>
+{% endif %}

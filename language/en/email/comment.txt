@@ -1,0 +1,15 @@
+Subject: Video reply notification - "{{ VIDEO_TITLE }}"
+
+Hello {{ USERNAME }},
+
+You are receiving this notification because "{{ AUTHOR_NAME }}" posted a new comment on the video "{{ VIDEO_TITLE }}" at "{{ SITENAME }}".
+
+If you want to view the comment, click the following link:
+
+{{ U_VIDEO }}
+
+If you no longer wish to receive updates about replies on videos, please update your notification settings here:
+
+{{ U_NOTIFICATION_SETTINGS }}
+
+{{ EMAIL_SIG }}

@@ -1,0 +1,99 @@
+	<h2>{{ lang('UCP_VBLOG_UPLOAD') }}</h2>
+
+	<div class="panel">
+		<div class="inner">
+			<fieldset>
+				{% if S_ERROR %}
+					<p class="error">{{ ERROR_MSG }}</p>
+				{% endif %}
+
+				<dl>
+					<dt><label for="vblog_file">{{ lang('UCP_VBLOG_UPLOADS') ~ lang('COLON') }}</label><br><span>{{ lang('UCP_VBLOG_UPLOADS_EXP') }}</span></dt>
+					<dd>
+						<input type="file" name="vblog_file" id="vblog_file" class="inputbox autowidth" accept=".mp4, .ogv, .ogg, .webm, .mov" value="{{ VBLOG_FILE }}" >
+						<!-- <input type="hidden" name="MAX_FILE_SIZE" value="50000000"> -->
+					</dd>
+				</dl>
+
+				<dl>
+					<dt><label for="vblog_title">{{ lang('VBLOG_VTITLE') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_VTITLE_EXP') }}</span></dt>
+					<dd><input class="inputbox autowidth" type="text" name="vblog_title" id="vblog_title" maxlength="55" value="{{ VBLOG_TITLE }}" title="{{ lang('VBLOG_VTITLE_EXP') }}"></dd>
+				</dl>
+
+				<dl>
+					<dt>
+						<label for="vblog_video_category">{{ lang('VBLOG_CATEGORIES_SEL') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_CATEGORIES_SEL_EXP') }}</span>
+					</dt>
+					{% if CATEGORIES_SEL|length %}
+						<div>
+							<dd>
+								<select name="vblog_video_category" id="vblog_video_category" title="{{ lang('VBLOG_CATEGORIES_SEL_EXP') }}">{{ CATEGORIES_SEL }}</select>
+							</dd>
+						</div>
+					{% else %}
+						<div>
+							<dd>
+								<span style="color: #cccccc;"><strong>{{ lang('VBLOG_C_NONE') }}</strong></span>
+							</dd>
+						</div>
+					{% endif %}
+				</dl>
+
+				<dl>
+					<dt><label for="vblog_is_private">{{ lang('VBLOG_IS_PRIVATE') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_IS_PRIVATE_EXPLAIN') }}</span></dt>
+					<dd>
+						<label for="vblog_is_private1">
+							<input type="radio" name="vblog_is_private" id="vblog_is_private1" value="1"{% if S_VBLOG_PRIVATE %} checked="checked"{% endif %}> {{ lang('YES') }}
+						</label>
+						<label for="vblog_is_private0">
+							<input type="radio" name="vblog_is_private" id="vblog_is_private0" value="0"{% if not S_VBLOG_PRIVATE %} checked="checked"{% endif %}> {{ lang('NO') }}
+						</label>
+					</dd>
+				</dl>
+
+				<dl>
+					<dt><label for="vblog_enable_comments">{{ lang('VBLOG_ENABLE_COMMENTS') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_ENABLE_COMMENTS_EXP') }}</span></dt>
+					<dd>
+						<label for="vblog_enable_comments1">
+							<input type="radio" name="vblog_enable_comments" id="vblog_enable_comments1" value="1"{% if S_VBLOG_COMMENTS %} checked="checked"{% endif %}> {{ lang('YES') }}
+						</label>
+						<label for="vblog_enable_comments0">
+							<input type="radio" name="vblog_enable_comments" id="vblog_enable_comments0" value="0"{% if not S_VBLOG_COMMENTS %} checked="checked"{% endif %}> {{ lang('NO') }}
+						</label>
+					</dd>
+				</dl>
+
+				<dl>
+					<dt><label for="vblog_max_comments">{{ lang('VBLOG_COMMENTS') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_COMMENTS_EXP') }}</span></dt>
+					<dd><input class="inputbox autowidth" type="number" name="vblog_max_comments" id="vblog_max_comments" min="0" value="{{ VBLOG_MAX_COMMENTS }}" title="{{ lang('VBLOG_COMMENTS_EXP') }}"></dd>
+				</dl>
+
+				<dl>
+					<dt>
+						<label for="vblog_gallery_id">{{ lang('VBLOG_GALLERIES_SEL') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_GALLERIES_SEL_EXP') }}</span>
+					</dt>
+					{% if GALLERIES_SEL|length %}
+						<div>
+							<dd>
+								<select name="vblog_gallery_id" id="vblog_gallery_id" title="{{ lang('VBLOG_GALLERIES_SEL_EXP') }}">{{ GALLERIES_SEL }}</select>
+							</dd>
+						</div>
+					{% else %}
+						<div>
+							<dd>
+								<span style="color: #cccccc;"><strong>{{ lang('UCP_VBLOG_G_NONE') }}</strong></span>
+							</dd>
+						</div>
+					{% endif %}
+				</dl>
+
+				<dl>
+					<dt><label for="vblog_video_description">{{ lang('VBLOG_V_DESCRO') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_V_DESCRO_EXP') }} {{ lang('VBLOG_V_DESCRO_MARKUP') }}</span></dt>
+					<dd>
+						<textarea class="inputbox" style="height: 12px;" name="vblog_video_description" id="vblog_video_description" rows="7" cols="76" title="{{ lang('VBLOG_V_DESCRO_EXP') }}"  placeholder="{{ lang('VBLOG_COMMENTS_PLACEHOLDER') ~ lang('ELLIPSIS') }}">{{ VBLOG_V_DESCRO }}</textarea>
+					</dd>
+				</dl>
+
+			</fieldset>
+		</div>
+	</div>

@@ -1,0 +1,118 @@
+{% include 'ucp_header.html' %}
+
+	{% if not definition.INCLUDED_VBLOGCOMMONCSS %}
+		{% INCLUDECSS '@phpbbstudio_vblog/vblog_common.css' %}
+		{% DEFINE INCLUDED_VBLOGCOMMONCSS = true %}
+	{% endif %}
+
+	<h2>{{ lang('UCP_VBLOG_GALLERIES') }}</h2>
+
+	<div class="panel">
+		<div class="inner">
+
+			{% if S_GALLERIES_LIST %}
+
+				<div class="action-bar bar-top">
+					<a class="button" title="{{ lang('UCP_VBLOG_ADD') }}" href="{{ U_GALLERY_ADD }}">
+						<span>{{ lang('UCP_VBLOG_ADD') }}</span>
+						<i class="icon fa-plus-square fa-fw" aria-hidden="true"></i>
+					</a>
+				</div>
+
+				<fieldset>
+
+					{% if galleries|length %}
+						<div class="studio-center studio-tip studio-tip-warning">
+							<i class="icon fa-eraser fa-fw icon-red" aria-hidden="true"></i>
+								<span><strong>{{ lang('UCP_VBLOG_DELETE_GAL_DISCLAIMER') }}</strong></span>
+							<i class="icon fa-exclamation-triangle fa-fw icon-red" aria-hidden="true"></i>
+						</div>
+						<hr>
+						<div class="action-bar">
+							{% if pagination|length or TOTAL_USERS %}
+							<div class="pagination">
+								{{ COUNT }}
+								{% if pagination|length %}
+									{% include 'pagination.html' %}
+								{% else %}
+									&bull; {{ PAGE_NUMBER }}
+								{% endif %}
+							</div>
+							{% endif %}
+						</div>
+						<hr>
+
+						{% include 'ucp_vblog_galleries_tables.html' %}
+
+						<hr>
+						<div class="action-bar">
+							{% if pagination|length or TOTAL_USERS %}
+							<div class="pagination">
+								{{ COUNT }}
+								{% if pagination|length %}
+									{% include 'pagination.html' %}
+								{% else %}
+									&bull; {{ PAGE_NUMBER }}
+								{% endif %}
+							</div>
+							{% endif %}
+						</div>
+
+					{% else %}
+						<div class="studio-center">
+							<strong>{{ lang('VBLOG_NO_GALLERY') }}</strong>
+						</div>
+					{% endif %}
+
+				</fieldset>
+			{% else %}
+				<form id="phpbbstudio_vblog_ucp_galleries" name="phpbbstudio_vblog_ucp_galleries" method="post" action="{{ U_UCP_ACTION }}">
+					<fieldset>
+						{% if S_ERROR %}
+							<p class="error">{{ ERROR_MSG }}</p>
+						{% endif %}
+
+						<dl>
+							<dt><label for="vblog_gallery_url_cover">{{ lang('VBLOG_COVER') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_COVER_EXPLAIN') }}</span></dt>
+							<dd><input class="inputbox autowidth" type="text" name="vblog_gallery_url_cover" id="vblog_gallery_url_cover" maxlength="255" value="{{ URL_COVER }}"></dd>
+						</dl>
+
+						<dl>
+							<dt><label for="vblog_gallery_title">{{ lang('VBLOG_TITLE') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_TITLE_EXPLAIN') }}</span></dt>
+							<dd><input class="inputbox autowidth" type="text" name="vblog_gallery_title" id="vblog_gallery_title" maxlength="55" value="{{ TITLE }}"></dd>
+						</dl>
+
+						<dl>
+							<dt><label for="vblog_gallery_description">{{ lang('UCP_VBLOG_G_DESCRO') ~ lang('COLON') }}</label><br><span>{{ lang('UCP_VBLOG_G_DESCRO_EXP') }} {{ lang('UCP_VBLOG_G_DESCRO_MARKUP') }}</span></dt>
+							<dd>
+								<textarea style="height: 12px;" name="vblog_gallery_description" id="vblog_gallery_description" rows="7" cols="76" class="inputbox" placeholder="{{ lang('UCP_VBLOG_G_DESCRO_EXP') }}" title="{{ lang('UCP_VBLOG_G_DESCRO_EXP') }}">{{ DESCRIPTION }}</textarea>
+							</dd>
+						</dl>
+
+					</fieldset>
+
+					<fieldset>
+						<dl>
+							<dt>&nbsp;</dt>
+							<dd>
+								<button class="button" id="submit" name="submit" type="submit">
+									<span>{{ lang('SUBMIT') }}</span>
+									<i class="icon fa-paper-plane fa-fw" aria-hidden="true"></i>
+								</button>
+
+								<button class="button" id="reset" name="reset" type="reset">
+									<span>{{ lang('RESET') }}</span>
+									<i class="icon fa-undo fa-fw" aria-hidden="true"></i>
+								</button>
+							</dd>
+						</dl>
+						{{ S_HIDDEN_FIELDS }}
+						{{ S_FORM_TOKEN }}
+					</fieldset>
+				</form>
+
+			{% endif %}
+		</div>
+	</div>
+
+{% include 'ucp_footer.html' %}

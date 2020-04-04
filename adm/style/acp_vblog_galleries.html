@@ -1,0 +1,65 @@
+{% include 'overall_header.html' %}
+
+<h1>{{ lang('ACP_VBLOG_TITLE') }} &bull; {{ lang('ACP_VBLOG_GALLERIES') }}</h1>
+
+{# Include - CSS #}
+{% if not definition.INCLUDED_ACPVBLOGCATEGORIESCSS %}
+	{% INCLUDECSS '@phpbbstudio_vblog/css/acp_vblog_categories.css' %}
+	{% DEFINE INCLUDED_INCLUDED_ACPVBLOGCATEGORIESCSSCSS = true %}
+{% endif %}
+
+{% if S_ERROR %}
+	<p class="errorbox">{{ ERROR_MSG }}</p>
+{% endif %}
+
+<div class="studio-center studio-tip studio-tip-warning">
+	<i class="icon fa-exclamation-triangle fa-fw icon-red" aria-hidden="true"></i>
+	<span>{{ lang('ACP_VBLOG_GAL_EXPLAIN') }}</span>
+	<i class="icon fa-exclamation-triangle fa-fw icon-red" aria-hidden="true"></i>
+</div>
+
+<form id="{{ FORM_KEY }}" name="{{ FORM_KEY }}" method="post" action="{{ U_ACTION }}">
+	<fieldset>
+		<legend>{{ lang('ACP_VBLOG_GALLERIES_TITLE') }}</legend>
+
+		<dl>
+			<dt><label for="studio_vblog_gallery_title">{{ lang('VBLOG_TITLE') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_FORK_GAL_EXPLAIN') }}</span></dt>
+			<dd><input class="inputbox autowidth" id="studio_vblog_gallery_title" name="studio_vblog_gallery_title" type="text" value="{{ PHPBBSTUDIO_VBLOG_GAL_TITLE }}" maxlength="255"></dd>
+		</dl>
+
+		<dl>
+			<dt><label for="studio_vblog_gallery_url_cover">{{ lang('VBLOG_COVER') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_FORK_URL_COVER_EXPLAIN') }}</span></dt>
+			<dd><input class="inputbox autowidth" id="studio_vblog_gallery_url_cover" name="studio_vblog_gallery_url_cover" type="text" value="{{ PHPBBSTUDIO_VBLOG_GAL_URL_COVER }}" maxlength="255"></dd>
+		</dl>
+
+		<dl>
+			<dt><label for="studio_vblog_gallery_description">{{ lang('VBLOG_V_DESCRO') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_FORK_DESCRO_EXPLAIN') }}</span></dt>
+			<dd><input class="inputbox autowidth" id="studio_vblog_gallery_description" name="studio_vblog_gallery_description" type="text" value="{{ PHPBBSTUDIO_VBLOG_GAL_DESCRO }}" maxlength="255"></dd>
+		</dl>
+
+		<dl>
+			<dt>
+				<label for="studio_vblog_gallery_user_id">{{ [lang('VBLOG_USER_GAL'), lang('VBLOG_USER_GAL_ID')] | join(' ') ~ lang('COLON') }}</label>
+				<br><span>{{ lang('VBLOG_FORK_USER_ID_EXPLAIN') }}</span>
+			</dt>
+			<dd><input class="inputbox autowidth" id="studio_vblog_gallery_user_id" name="studio_vblog_gallery_user_id" type="number" value="{{ PHPBBSTUDIO_VBLOG_GAL_USER_ID }}" min="0"></dd>
+		</dl>
+	</fieldset>
+
+	<fieldset>
+		<p class="submit-buttons">
+			<button class="button-blog" id="submit" name="submit" type="submit">
+				<span>{{ lang('SUBMIT') }}</span>
+				<i class="icon fa-paper-plane fa-fw" aria-hidden="true"></i>
+			</button>
+
+			<button class="button-blog" id="reset" name="reset" type="reset">
+				<span>{{ lang('RESET') }}</span>
+				<i class="icon fa-refresh fa-fw" aria-hidden="true"></i>
+			</button>
+			{{ S_FORM_TOKEN }}
+		</p>
+	</fieldset>
+</form>
+
+{% include 'overall_footer.html' %}

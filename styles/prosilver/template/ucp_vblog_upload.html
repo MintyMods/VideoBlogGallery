@@ -1,0 +1,38 @@
+{% include 'ucp_header.html' %}
+
+	{% if not definition.INCLUDED_SWEETALERT209JS %}
+		{% INCLUDEJS '@phpbbstudio_vblog/js/sweetalert2@9.js' %}
+		{% DEFINE INCLUDED_SWEETALERT209JS = true %}
+	{% endif %}
+
+	{% if not definition.INCLUDED_VBLOGCOMMONCSS %}
+		{% INCLUDECSS '@phpbbstudio_vblog/vblog_common.css' %}
+		{% DEFINE INCLUDED_VBLOGCOMMONCSS = true %}
+	{% endif %}
+
+	<form id="phpbbstudio_vblog_ucp_upload" name="phpbbstudio_vblog_ucp_upload" method="post" action="{{ U_UCP_ACTION }}" enctype="multipart/form-data">
+
+		{% include 'ucp_vblog_upload_form.html' %}
+
+		<fieldset>
+			<dl>
+				<dt>&nbsp;</dt>
+				<dd>
+					<button class="button" id="submit" name="submit" type="submit" onclick="Swal.fire({title: '{{ lang('UCP_VBLOG_VIDEO_UPLOADING')|e('js') }}', text: '{{ lang('UCP_VBLOG_VIDEO_PROGRESS')|e('js') }}', onBeforeOpen: () => { Swal.showLoading(); }});">
+						<span>{{ lang('SUBMIT') }}</span>
+						<i class="icon fa-paper-plane fa-fw" aria-hidden="true"></i>
+					</button>
+
+					<button class="button" id="reset" name="reset" type="reset">
+						<span>{{ lang('RESET') }}</span>
+						<i class="icon fa-undo fa-fw" aria-hidden="true"></i>
+					</button>
+				</dd>
+			</dl>
+			{{ S_HIDDEN_FIELDS }}
+			{{ S_FORM_TOKEN }}
+		</fieldset>
+
+	</form>
+
+{% include 'ucp_footer.html' %}

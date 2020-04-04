@@ -1,0 +1,15 @@
+{% if VBLOG_AUTH_VBLOG or VBLOG_AUTH_ADM_MOD %}
+	<a href="{{ path('phpbbstudio_vblog_controller', {'username': user.data.username_clean}) }}" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=350,height=600'); return false;">
+		<button type="button" class="button button-icon-only" accesskey="v" title="{{ lang('VBLOG_POSTING_BUTTON') }}">
+			<i class="icon fa-film fa-fw" aria-hidden="true"></i>
+		</button>
+	</a>
+{% endif %}
+
+{% if VBLOG_AUTH_VGALLERY or VBLOG_AUTH_ADM_MOD %}
+	<a href="{{ path('phpbbstudio_vgallery_controller') }}" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=350,height=600'); return false;">
+		<button type="button" class="button button-icon-only" accesskey="g" title="{{ lang('VGALLERY_POSTING_BUTTON') }}">
+			<i class="icon fa-file-video-o fa-fw" aria-hidden="true"></i>
+		</button>
+	</a>
+{% endif %}

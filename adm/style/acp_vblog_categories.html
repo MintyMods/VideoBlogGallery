@@ -1,0 +1,158 @@
+{% include 'overall_header.html' %}
+
+<h1>{{ lang('ACP_VBLOG_TITLE') }} &bull; {{ lang('ACP_VBLOG_CATEGORIES') }}</h1>
+
+{# Include - CSS #}
+{% if not definition.INCLUDED_ACPVBLOGCATEGORIESCSS %}
+	{% INCLUDECSS '@phpbbstudio_vblog/css/acp_vblog_categories.css' %}
+	{% DEFINE INCLUDED_INCLUDED_ACPVBLOGCATEGORIESCSSCSS = true %}
+{% endif %}
+
+<div class="studio-center studio-tip studio-tip-warning">
+	<i class="icon fa-eraser fa-fw icon-red" aria-hidden="true"></i>
+	<span>{{ lang('ACP_VBLOG_CAT_EXPLAIN') }}</span>
+	<i class="icon fa-exclamation-triangle fa-fw icon-red" aria-hidden="true"></i>
+</div>
+
+<div class="panel">
+	{% if S_CAT_LIST %}
+		<div class="studio-right">
+			<a class="button-blog" title="{{ lang('ACP_VBLOG_ADD') }}" href="{{ U_CAT_ADD }}">
+				<span>{{ lang('ACP_VBLOG_ADD') }}</span>
+				<i class="icon fa-plus-square-o fa-fw" aria-hidden="true"></i>
+			</a>
+		</div>
+
+		<fieldset>
+			<div class="action-bar">
+				{% if pagination|length or TOTAL_USERS %}
+				<div class="pagination">
+					{{ COUNT }}
+					{% if pagination|length %}
+						{% include 'pagination.html' %}
+					{% else %}
+						&bull; {{ PAGE_NUMBER }}
+					{% endif %}
+				</div>
+				{% endif %}
+			</div>
+
+			<hr>
+
+			{% if categories|length %}
+				<table>
+					<thead>
+						<tr>
+							<th class="studio-center">{{ lang('VBLOG_USER_GAL_ID') }}</th>
+							<th class="studio-center">{{ lang('VBLOG_PRIORITY') }}</th>
+							<th class="studio-center">{{ lang('VBLOG_CATEGORY') }}</th>
+							<th class="studio-center">{{ lang('VBLOG_URL_COVER') }}</th>
+							<th class="studio-center">{{ lang('ACP_VBLOG_ACTIONS') }}</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for category in categories %}
+							<tr>
+								<td class="studio-right"><em>{{ category.ID }}</em></td>
+								<td class="studio-right"><strong>{{ category.PRIORITY }}</strong></td>
+								<td>
+									{% if category.S_GENERIC_CAT %}
+										<strong><em>{{ category.CATEGORY }}</em></strong>
+									{% else %}
+										{{ category.CATEGORY }}
+									{% endif %}
+								</td>
+								<td>{{ category.URL_COVER }}</td>
+								<td class="studio-center">
+									<a href="{{ category.U_EDIT }}" title="{{ lang('ACP_VBLOG_EDIT') }}">
+										<i class="icon fa-cog fa-fw icon-green" aria-hidden="true"></i>
+										<span class="sr-only">{{ lang('ACP_VBLOG_EDIT') }}</span>
+									</a>
+									{% if not category.S_GENERIC_CAT %}
+										<a href="{{ category.U_DELETE }}" title="{{ lang('ACP_VBLOG_DELETE') }}">
+											<i class="icon fa-trash fa-fw icon-red" aria-hidden="true"></i>
+											<span class="sr-only">{{ lang('ACP_VBLOG_DELETE') }}</span>
+										</a>
+									{% endif %}
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			{% else %}
+				<div class="studio-center">
+					<strong>{{ lang('ACP_VBLOG_NO_CATEGORY') }}</strong>
+				</div>
+			{% endif %}
+
+			<hr>
+
+			<div class="action-bar">
+				{% if pagination|length or TOTAL_USERS %}
+				<div class="pagination">
+					{{ COUNT }}
+					{% if pagination|length %}
+						{% include 'pagination.html' %}
+					{% else %}
+						&bull; {{ PAGE_NUMBER }}
+					{% endif %}
+				</div>
+				{% endif %}
+			</div>
+		</fieldset>
+	{% else %}
+
+		{% if S_ERROR %}
+			<p class="errorbox">{{ ERROR_MSG }}</p>
+		{% endif %}
+
+		<form id="phpbbstudio_vblog_acp_categories" name="phpbbstudio_vblog_acp_categories" method="post" action="{{ U_ACP_ACTION }}">
+			<fieldset>
+
+				<dl>
+					<dt>
+						<label for="vblog_category_priority">Priority:</label>
+						<br><span>{{ lang('VBLOG_PRIORITY_CAT_EXPLAIN') }}</span>
+					</dt>
+					<dd><input class="inputbox autowidth" id="vblog_category_priority" name="vblog_category_priority" type="number" value="{{ PRIORITY }}" min="0"></dd>
+				</dl>
+
+				{% if not S_GENERIC_CAT %}
+					<dl>
+						<dt>
+							<label for="vblog_category">{{ lang('VBLOG_TITLE') ~ lang('COLON') }}</label>
+							<br><span>{{ lang('VBLOG_CAT_TITLE_EXPLAIN') }}</span>
+						</dt>
+						<dd><input class="inputbox autowidth" id="vblog_category" name="vblog_category" type="text" value="{{ CATEGORY }}" maxlength="255"></dd>
+					</dl>
+				{% endif %}
+
+				<dl>
+					<dt>
+						<label for="vblog_category_url_cover">{{ lang('VBLOG_COVER') ~ lang('COLON') }}</label>
+						<br><span>{{ lang('VBLOG_COVER_EXPLAIN') }}</span>
+					</dt>
+					<dd><input class="inputbox autowidth" id="vblog_category_url_cover" name="vblog_category_url_cover" type="text" value="{{ URL_COVER }}" maxlength="255"></dd>
+				</dl>
+			</fieldset>
+
+			<fieldset>
+				<p class="submit-buttons">
+					<button class="button-blog" id="submit" name="submit" type="submit">
+						<span>{{ lang('SUBMIT') }}</span>
+						<i class="icon fa-paper-plane fa-fw" aria-hidden="true"></i>
+					</button>
+
+					<button class="button-blog" id="reset" name="reset" type="reset">
+						<span>{{ lang('RESET') }}</span>
+						<i class="icon fa-refresh fa-fw" aria-hidden="true"></i>
+					</button>
+					{{ S_HIDDEN_FIELDS }}
+					{{ S_FORM_TOKEN }}
+				</p>
+			</fieldset>
+		</form>
+	{% endif %}
+</div>
+
+{% include 'overall_footer.html' %}

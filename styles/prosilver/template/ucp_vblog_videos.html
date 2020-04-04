@@ -1,0 +1,143 @@
+{% include 'ucp_header.html' %}
+
+	{% if not definition.INCLUDED_VBLOGCOMMONCSS %}
+		{% INCLUDECSS '@phpbbstudio_vblog/vblog_common.css' %}
+		{% DEFINE INCLUDED_VBLOGCOMMONCSS = true %}
+	{% endif %}
+
+	{% if not definition.INCLUDED_VBLOGUCPCSS %}
+		{% INCLUDECSS '@phpbbstudio_vblog/vblog_ucp.css' %}
+		{% DEFINE INCLUDED_VBLOGUCPCSS = true %}
+	{% endif %}
+
+	<h2>{{ lang('UCP_VBLOG_VIDEOS') }}</h2>
+
+	<div class="panel">
+		<div class="inner">
+
+			{% if S_VIDEOS_LIST %}
+
+				<fieldset>
+				{% if videos|length %}
+
+					{% if VBLOG_AUTH_CAN_DELETE_VIDEO %}
+						<div class="studio-center studio-tip studio-tip-warning">
+							<i class="icon fa-eraser fa-fw icon-red" aria-hidden="true"></i>
+								<span><strong>{{ lang('UCP_VBLOG_DELETE_VIDEO_DISCLAIMER') }}</strong></span>
+							<i class="icon fa-exclamation-triangle fa-fw icon-red" aria-hidden="true"></i>
+						</div>
+						<hr>
+					{% endif %}
+
+					<div class="action-bar">
+						{% if pagination|length or TOTAL_USERS %}
+						<div class="pagination">
+							{{ COUNT }}
+							{% if pagination|length %}
+								{% include 'pagination.html' %}
+							{% else %}
+								&bull; {{ PAGE_NUMBER }}
+							{% endif %}
+						</div>
+						{% endif %}
+					</div>
+
+					<hr>
+
+					<div class="studio-center">
+						<main class="grid">
+						{% for video in videos %}
+							{# https://stackoverflow.com/a/54038716 #}
+							<article>
+
+								<video oncontextmenu="return false;" controls preload="metadata">{# poster="../images/videos/imgs/cioccoluna.jpg" #}
+									<source src="{{ video.URL }}" type="{{ video.MIMETYPE }}">
+									<p>{{ lang('VBLOG_NO_HTML5') }}</p>
+								</video>
+
+								<div class="text">
+									<h3>{{ video.TITLE }}</h3>
+
+									<div>
+										<p>{{ lang('VBLOG_GALLERY') ~ lang('COLON') }} {{ video.GALLERY_ID }}</p>
+										<p><strong>{{ video.SIZE }}</strong></p>
+										<p><strong>{{ video.USER_NAME }}</strong></p>
+										<p title="{{ lang('VBLOG_POSTED_ON') }}">{{ video.TIME|date('d-m-Y H:i') }}</p>
+									</div>
+
+									<p>
+										<i class="icon fa-eye fa-fw icon-blue" aria-hidden="true" title="{{ lang('VBLOG_VIDEO_VIEWS') }}"></i><span><strong>{{ video.NUM_VIEWS }}</strong></span>
+										&bull;
+										<i class="icon fa-comments-o fa-fw icon-blue" aria-hidden="true" title="{{ lang('VBLOG_COMMENTS_SO_FAR') }}"></i><span><strong>{{ video.NUM_COMMENTS }}</strong></span>
+									</p>
+
+									<p>
+										<i class="icon fa-commenting-o fa-fw icon-blue" aria-hidden="true" title="{{ lang('VBLOG_COMMENTS_ARE') }}"></i><span><strong>{{ (video.ENABLE_COMMENTS) ? lang('VBLOG_ON') : lang('VBLOG_OFF') }}</strong></span>
+										&bull;
+										{{ lang('VBLOG_LIMITED_TO') ~ lang('COLON') }} <strong>{{ video.MAX_COMMENTS }}</strong>
+									</p>
+
+									<hr>
+										<div class="studio-ellipsis" title="{{ video.DESCRIPTION }}">
+											{{ (video.DESCRIPTION) ? video.DESCRIPTION : lang('UCP_VBLOG_V_DESCRO_NONE') }}
+										</div>
+
+									{% if video.S_V_EDIT %}
+										<hr>
+										<a href="{{ video.U_V_EDIT }}" class="main-button" title="{% if video.IS_PRIVATE %}{{ lang('VBLOG_PRIVATE') }}{% else %}{{ lang('VBLOG_PUBLIC') }}{% endif %}">
+											{% if video.IS_PRIVATE %}
+												<i class="icon fa-thumb-tack fa-fw icon-red" aria-hidden="true"></i>
+											{% else %}
+												<i class="icon fa-unlock fa-fw icon-green" aria-hidden="true"></i>
+											{% endif %}
+											<span><strong>{{ lang('UCP_VBLOG_EDIT') }}</strong></span>
+										</a>
+									{% endif %}
+
+									{% if video.S_V_DELETE %}
+										<hr>
+										<a href="{{ video.U_V_DELETE }}" class="main-button" title="{{ lang('UCP_VBLOG_DELETE') }}">
+											<i class="icon fa-eraser fa-fw icon-red" aria-hidden="true"></i>
+											<span><strong>{{ lang('UCP_VBLOG_DELETE') }}</strong></span>
+										</a>
+									{% endif %}
+
+									<hr>
+								</div>
+
+							</article>
+						{% endfor %}
+						</main>
+					</div>
+
+					<hr>
+
+					<div class="action-bar">
+						{% if pagination|length or TOTAL_USERS %}
+						<div class="pagination">
+							{{ COUNT }}
+							{% if pagination|length %}
+								{% include 'pagination.html' %}
+							{% else %}
+								&bull; {{ PAGE_NUMBER }}
+							{% endif %}
+						</div>
+						{% endif %}
+					</div>
+
+				{% else %}
+					<div class="studio-center">
+						<strong>{{ lang('VBLOG_NO_VIDEOS') }}</strong>
+					</div>
+				{% endif %}
+				</fieldset>
+
+			{% else %}
+
+				{% include 'common_video_edit.html' %}
+
+			{% endif %}
+		</div>
+	</div>
+
+{% include 'ucp_footer.html' %}

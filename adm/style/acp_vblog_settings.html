@@ -1,0 +1,190 @@
+{% include 'overall_header.html' %}
+
+<h1>{{ lang('ACP_VBLOG_TITLE') }} &bull; {{ lang('ACP_VBLOG_SETTINGS') }}</h1>
+
+{# Include - CSS #}
+{% if not definition.INCLUDED_ACPVBLOGCATEGORIESCSS %}
+	{% INCLUDECSS '@phpbbstudio_vblog/css/acp_vblog_categories.css' %}
+	{% DEFINE INCLUDED_INCLUDED_ACPVBLOGCATEGORIESCSSCSS = true %}
+{% endif %}
+
+<div class="studio-lside">
+	<table class="studio-table2 zebra-table no-header" data-no-responsive-header="true">
+		<thead>
+			<tr>
+				<th class="th1">&nbsp;</th>
+				<th class="th2">{{ lang('VBLOG_STATISTIC') }}</th>
+				<th class="th3">{{ lang('VALUE') }}</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr>
+				<td class="studio-tabled studio-center" title="{{ lang('VBLOG_COMMENTS') }}"><i class="icon fa-comments-o fa-fw icon-blue"></i></td>
+				<td class="studio-tabled">{{ lang('VBLOG_COMMENTS') }}</td>
+				<td class="studio-tabled"><strong>{{ PHPBBSTUDIO_VBLOG_TOT_COMMENTS }}</strong></td>
+			</tr>
+			<tr>
+				<td class="studio-tabled studio-center" title="{{ lang('VBLOG_TOT_UPLOADS') }}"><i class="icon fa-upload fa-fw icon-purple"></i></td>
+				<td class="studio-tabled">{{ lang('VBLOG_TOT_UPLOADS') }}</td>
+				<td class="studio-tabled"><strong>{{ PHPBBSTUDIO_VBLOG_DIR_SIZE }}</strong></td>
+			</tr>
+			<tr>
+				<td class="studio-tabled studio-center" title="{{ lang('VBLOG_USERS') }}"><i class="icon fa-film fa-fw icon-blue"></i></td>
+				<td class="studio-tabled">{{ lang('VBLOG_USERS') }}</td>
+				<td class="studio-tabled"><strong>{{ PHPBBSTUDIO_VBLOGGERS }}</strong></td>
+			</tr>
+			<tr>
+				<td class="studio-tabled studio-center" title="{{ lang('VBLOG_LIKES') }}"><i class="icon fa-thumbs-up fa-fw icon-green"></i></td>
+				<td class="studio-tabled">{{ lang('VBLOG_LIKES') }}</td>
+				<td class="studio-tabled"><strong>{{ PHPBBSTUDIO_VLIKES }}</strong></td>
+			</tr>
+			<tr>
+				<td class="studio-tabled studio-center" title="{{ lang('VBLOG_DISLIKES') }}"><i class="icon fa-thumbs-down fa-fw icon-red"></i ></td>
+				<td class="studio-tabled">{{ lang('VBLOG_DISLIKES') }}</td>
+				<td class="studio-tabled"><strong>{{ PHPBBSTUDIO_VDISLIKES }}</strong></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<table class="studio-table2 zebra-table no-header" data-no-responsive-header="true">
+		<thead>
+			<tr>
+				<th class="th1">&nbsp;</th>
+				<th class="th2">{{ lang('VBLOG_STATISTIC') }}</th>
+				<th class="th3">{{ lang('VALUE') }}</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr>
+				<td class="studio-tabled studio-center" title="{{ lang('VBLOG_PUB_VIDEOS') }}"><i class="icon fa-unlock fa-fw icon-green"></i></td>
+				<td class="studio-tabled">{{ lang('VBLOG_PUB_VIDEOS') }}</td>
+				<td class="studio-tabled"><strong>{{ PHPBBSTUDIO_VBLOG_PUB_VIDEOS }}</strong></td>
+			</tr>
+			<tr>
+				<td class="studio-tabled studio-center" title="{{ lang('VBLOG_PVT_VIDEOS') }}"><i class="icon fa-lock fa-fw icon-red"></i></td>
+				<td class="studio-tabled">{{ lang('VBLOG_PVT_VIDEOS') }}</td>
+				<td class="studio-tabled"><strong>{{ PHPBBSTUDIO_VBLOG_PRIV_VIDEOS }}</strong></td>
+			</tr>
+			<tr>
+				<td class="studio-tabled studio-center" title="{{ lang('VBLOG_GALLERIES') }}"><i class="icon fa-list-alt fa-fw icon-blue"></i></td>
+				<td class="studio-tabled">{{ lang('VBLOG_GALLERIES') }}</td>
+				<td class="studio-tabled"><strong>{{ PHPBBSTUDIO_VBLOG_GALLERIES }}</strong></td>
+			</tr>
+			<tr>
+				<td class="studio-tabled studio-center" title="{{ lang('VBLOG_CATEGORIES') }}"><i class="icon fa-list fa-fw icon-blue"></i></td>
+				<td class="studio-tabled">{{ lang('VBLOG_CATEGORIES') }}</td>
+				<td class="studio-tabled"><strong>{{ PHPBBSTUDIO_VBLOG_CATEGORIES }}</strong></td>
+			</tr>
+			<tr>
+				<td class="studio-tabled studio-center">&nbsp;</td>
+				<td class="studio-tabled">&nbsp;</td>
+				<td class="studio-tabled"><strong>&nbsp;</strong></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+{% if S_ERROR %}
+	<div class="errorbox">
+		<h3>{{ lang('WARNING') }}</h3>
+		<p>{{ ERROR_MSG }}</p>
+	</div>
+{% endif %}
+
+<form id="{{ FORM_KEY }}" name="{{ FORM_KEY }}" method="post" action="{{ U_ACTION }}">
+	<fieldset>
+		<legend>{{ lang('SETTINGS') }}</legend>
+
+		<dl>
+			<dt>
+				<label for="studio_vblog_max_filesize">{{ lang('VBLOG_UPLOAD_MAX') }}</label>
+				<br><span>{{ lang('VBLOG_UPLOAD_MAX_EXPLAIN') }}</span>
+			</dt>
+			<dd><input class="inputbox autowidth" id="studio_vblog_max_filesize" name="studio_vblog_max_filesize" type="number" value="{{ PHPBBSTUDIO_VBLOG_MAX }}" max="5120"></dd>
+		</dl>
+
+		<dl>
+			<dt>
+				<label for="studio_vblog_items_per_page">{{ lang('VBLOG_MAX_ITEMS_PAGE') ~ lang('COLON') }}</label>
+				<br><span>{{ lang('VBLOG_MAX_ITEMS_PAGE_EXPLAIN') }}</span>
+			</dt>
+			<dd><input class="inputbox autowidth" id="studio_vblog_items_per_page" name="studio_vblog_items_per_page" type="number" value="{{ PHPBBSTUDIO_VBLOG_MAX_ITEMS }}" min="1"></dd>
+		</dl>
+
+		<dl>
+			<dt>
+				<label for="studio_vblog_comments_per_page">{{ lang('VBLOG_MAX_COMMENTS_PAGE') ~ lang('COLON') }}</label>
+				<br><span>{{ lang('VBLOG_MAX_COMMENTS_PAGE_EXPLAIN') }}</span>
+			</dt>
+			<dd><input class="inputbox autowidth" id="studio_vblog_comments_per_page" name="studio_vblog_comments_per_page" type="number" value="{{ PHPBBSTUDIO_VBLOG_MAX_COMMENTS }}" min="1"></dd>
+		</dl>
+
+		<dl>
+			<dt>
+				<label for="studio_vblog_ucp_items_per_page">{{ lang('VBLOG_UCP_MAX_ITEMS_PAGE') ~ lang('COLON') }}</label>
+				<br><span>{{ lang('VBLOG_UCP_MAX_ITEMS_PAGE_EXPLAIN') }}</span>
+			</dt>
+			<dd><input class="inputbox autowidth" id="studio_vblog_ucp_items_per_page" name="studio_vblog_ucp_items_per_page" type="number" value="{{ PHPBBSTUDIO_VBLOG_MAX_UCP_ITEMS }}" min="4" step="4"></dd>
+		</dl>
+
+		<dl>
+			<dt><label for="studio_vblog_user_logs_on">{{ lang('VBLOG_USER_LOGS') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_USER_LOGS_EXPLAIN') }}</span></dt>
+			<dd>
+				<label>
+					<input type="radio" class="radio" name="studio_vblog_user_logs" value="1" id="studio_vblog_user_logs_on"{% if S_USER_LOGS %} checked="checked"{% endif %} />
+					{{ lang('ENABLED') }}
+				</label>
+				<label>
+					<input type="radio" class="radio" name="studio_vblog_user_logs" value="0" id="studio_vblog_user_logs_off"{% if not S_USER_LOGS %} checked="checked"{% endif %} />
+					{{ lang('DISABLED') }}
+				</label>
+			</dd>
+		</dl>
+	</fieldset>
+
+	<fieldset>
+		<legend>{{ lang('VBLOG_CATEGORY') }}</legend>
+
+		<dl>
+			<dt><label for="studio_vblog_generic">{{ lang('VBLOG_DEFAULT_CAT') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_DEFAULT_CAT_EXPLAIN') }}</span></dt>
+			<dd><input class="inputbox autowidth" id="studio_vblog_generic" name="studio_vblog_generic" type="text" value="{{ PHPBBSTUDIO_VBLOG_CAT_DEFAULT }}" maxlength="255"></dd>
+		</dl>
+	</fieldset>
+
+	<fieldset>
+		<legend>{{ lang('VBLOG_DEBUG') }}</legend>
+
+		<dl>
+			<dt><label for="studio_vblog_ajax_debug_on">{{ lang('VBLOG_AJAX_DEBUG') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_AJAX_DEBUG_EXPLAIN') }}</span></dt>
+			<dd>
+				<label>
+					<input type="radio" class="radio" name="studio_vblog_ajax_debug" value="1" id="studio_vblog_ajax_debug_on"{% if S_AJAX_DEBUG %} checked="checked"{% endif %} />
+					{{ lang('ENABLED') }}
+				</label>
+				<label>
+					<input type="radio" class="radio" name="studio_vblog_ajax_debug" value="0" id="studio_vblog_ajax_debug_off"{% if not S_AJAX_DEBUG %} checked="checked"{% endif %} />
+					{{ lang('DISABLED') }}
+				</label>
+			</dd>
+		</dl>
+	</fieldset>
+
+	<fieldset>
+		<p class="submit-buttons">
+			<button class="button-blog" id="submit" name="submit" type="submit">
+				<span>{{ lang('SUBMIT') }}</span>
+				<i class="icon fa-paper-plane fa-fw" aria-hidden="true"></i>
+			</button>
+
+			<button class="button-blog" id="reset" name="reset" type="reset">
+				<span>{{ lang('RESET') }}</span>
+				<i class="icon fa-undo fa-fw" aria-hidden="true"></i>
+			</button>
+			{{ S_FORM_TOKEN }}
+		</p>
+	</fieldset>
+</form>
+
+{% include 'overall_footer.html' %}

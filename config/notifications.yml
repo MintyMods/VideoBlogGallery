@@ -1,0 +1,11 @@
+services:
+    phpbbstudio.vblog.notification.type.comment:
+        class: phpbbstudio\vblog\notification\type\comment
+        shared: false
+        parent: notification.type.base
+        calls:
+            - ['set_controller_helper', ['@controller.helper']]
+            - ['set_user_loader', ['@user_loader']]
+            - ['set_subscriptions_table', ['%phpbbstudio.vblog.subscriptions%']]
+        tags:
+            - { name: notification.type }

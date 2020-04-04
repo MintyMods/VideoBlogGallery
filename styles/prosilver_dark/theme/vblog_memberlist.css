@@ -1,0 +1,35 @@
+/**
+ *
+ * phpBB Studio - Video blog gallery. An extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2020, phpBB Studio, https://www.phpbbstudio.com
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
+.icon.icon-red,
+a:hover .icon.icon-red {
+	font-size: 1.3em;
+	text-shadow: 3px 3px 1px #404040;
+	color: #bc2a4d;
+}
+
+.icon.icon-green,
+a:hover .icon.icon-green {
+	font-size: 1.3em;
+	text-shadow: 3px 3px 1px #404040;
+	color: #1b9a1b;
+}
+
+.icon.icon-blue,
+a:hover .icon.icon-blue {
+	font-size: 1.3em;
+	text-shadow: 3px 3px 1px #404040;
+	color: #0033ff;
+}
+
+.icon.icon-purple,
+a:hover .icon.icon-purple {
+	font-size: 1.3em;
+	text-shadow: 3px 3px 1px #404040;
+	color: #8000ff;
+}

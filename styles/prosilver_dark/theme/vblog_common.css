@@ -1,0 +1,149 @@
+/**
+ *
+ * phpBB Studio - Video blog gallery. An extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2020, phpBB Studio, https://www.phpbbstudio.com
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
+
+input.studio-inputbox {
+	width: 70%;
+}
+
+.studio-center {
+	text-align: center;
+}
+
+.studio-right {
+	text-align: right;
+}
+
+.studio-left {
+	text-align: left;
+}
+
+.studio-ellipsis {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	display: block;
+	overflow: hidden;
+	max-width: 200px;
+}
+
+.studio-comment-box textarea {
+	font-family: "Trebuchet MS", Verdana, Helvetica, Arial, sans-serif;
+	font-size: 1.4em;
+	background-color: #171b24 !important;
+	border: 1px solid #262525;
+	outline: 3px dashed transparent;
+	outline-offset: -4px;
+	width: 100%;
+	min-width: 100%;
+	max-width: 100%;
+	height: 100px;
+	resize: vertical;
+	transition: all 0.5s ease, height 1ms linear;
+}
+
+.studio-button-orange {
+	background: linear-gradient(60deg, #6c6c71, #313133);
+	box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(2, 13, 15, 0.4);
+}
+
+.studio-button-blue {
+	background: linear-gradient(60deg, #6c6c71, #313133);
+	box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(2, 13, 15, 0.4);
+}
+
+a.main-button {
+	font-size: 0.9rem;
+	background: linear-gradient(60deg, #6c6c71, #313133);
+	border: 1px solid transparent;
+	border-radius: 3px;
+	box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(1, 23, 26, 0.96);
+	color: #838b98 !important;
+	width: 120px;
+}
+
+a.main-button:hover {
+	transition-duration: 0.3s;
+	transform: scale(1.09);
+}
+
+a.main-button-2 {
+	width: 200px;
+}
+
+.icon.icon-red,
+a:hover .icon.icon-red {
+	font-size: 1.3em;
+	text-shadow: 2px 1px 1px #242433;
+	color: #bc2a4d;
+}
+
+.icon.icon-green,
+a:hover .icon.icon-green {
+	font-size: 1.3em;
+	text-shadow: 2px 1px 1px #242433;
+	color: #1b9a1b;
+}
+
+.icon.icon-blue,
+a:hover .icon.icon-blue {
+	font-size: 1.3em;
+	text-shadow: 2px 1px 1px #242433;
+	color: #0033ff;
+}
+
+.icon.icon-purple,
+a:hover .icon.icon-purple {
+	font-size: 1.3em;
+	text-shadow: 2px 1px 1px #242433;
+	color: #8000ff;
+}
+
+/** Tips BS alike */
+.studio-tip {
+	border: 1px solid transparent;
+	border-radius: 4px;
+	margin-bottom: 20px;
+	padding: 15px;
+}
+
+.studio-tip-info {
+	background-color: #d9edf7;
+	border-color: #bce8f1;
+	color: #31708f;
+}
+
+.studio-tip-danger {
+	background-color: #f2dede;
+	border-color: #ebccd1;
+	color: #a94442;
+}
+
+.studio-tip-warning {
+	background-color: #fcf8e3;
+	border-color: #faebcc;
+	color: #8a6d3b;
+}
+
+.studio-tip-success {
+	background-color: #dff0d8;
+	border-color: #d6e9c6;
+	color: #3c763d;
+}
+
+/** Sweetalert2 */
+.swal2-container .swal2-popup {
+	background: #171b24;
+}
+
+.swal2-popup .swal2-title {
+	color: #838b98;
+}
+
+.swal2-popup .swal2-content {
+	color: #838b98;
+}

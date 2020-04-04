@@ -1,0 +1,7 @@
+{% if VBLOG_AUTH_VBLOG %}
+	<li>
+		<a href="{{ path('phpbbstudio_vblog_controller', {'username': user.data.username_clean}) }}" title="{{ lang('VBLOG_USER') }}" role="menuitem">
+			<i class="icon fa-film fa-fw" aria-hidden="true"></i><span>{{ lang('VBLOG_USER') }}</span>
+		</a>
+	</li>
+{% endif %}

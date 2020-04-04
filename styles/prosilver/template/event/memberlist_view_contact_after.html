@@ -1,0 +1,72 @@
+	{# Include - CSS #}
+	{% if not definition.INCLUDED_VBLOGMEMBERLISTCSS %}
+		{% INCLUDECSS '@phpbbstudio_vblog/vblog_memberlist.css' %}
+		{% DEFINE INCLUDED_VBLOGMEMBERLISTCSS = true %}
+	{% endif %}
+	
+	<div class="panel bg2">
+		<div class="inner">
+
+			<div class="column1">
+				<h3>{{ lang('VIDEO_BLOG') }}</h3>
+				<dl class="details">
+						<dt>{{ lang('VBLOG_USER') ~ lang('COLON') }}</dt>
+						<dd>
+							<div>
+								<a {% if (VBLOG_PROFILE_OWNER and VBLOG_AUTH_VBLOG) or VBLOG_AUTH_ADM_MOD or VBLOG_AUTH_USER_GALLERIES %}href="{{ path('phpbbstudio_vblog_controller')  ~ VBLOG_USERNAME_CLEAN }}"{% endif %}>
+									<button type="button" class="button button-icon-only" accesskey="v" 
+										{% if (VBLOG_PROFILE_OWNER and VBLOG_AUTH_VBLOG) or VBLOG_AUTH_ADM_MOD or VBLOG_AUTH_USER_GALLERIES %}
+											title="{{ lang('VBLOG_USER') }}"
+										{% else %}
+											title="{{ lang('VBLOG_NO_GRANT') }}"
+										{% endif %}>
+										<i class="icon fa-film fa-fw" aria-hidden="true"></i>
+									</button>
+								</a>
+							</div>
+						</dd>
+				</dl>
+			</div>
+
+			<div class="column2">
+				<h3>{{ lang('VIDEO_BLOG_STATS') }}</h3>
+				<dl class="details">
+					<dt>{{ lang('VBLOG_TOT_GALLERIES') ~ lang('COLON') }}</dt>
+					<dd>
+						<div><i class="icon fa-list-alt fa-fw icon-purple"></i> {{ VBLOG_TOT_GAL }}</div>
+					</dd>
+					<dt>{{ lang('VBLOG_TOT_VIDEOS') ~ lang('COLON') }}</dt>
+					<dd>
+						<div><i class="icon fa-video-camera fa-fw icon-blue"></i> {{ VBLOG_TOT_VID }}</div>
+					</dd>
+					<dt>{{ lang('VBLOG_TOT_MIBS') ~ lang('COLON') }}</dt>
+					<dd>
+						<div><i class="icon fa-upload fa-fw icon-purple"></i > {{ VBLOG_DIR_SIZE }}</div>
+					</dd>
+
+					<dt>{{ lang('VBLOG_TOT_LIKED') ~ lang('COLON') }}</dt>
+					<dd>
+						<div><i class="icon fa-thumbs-up fa-fw icon-green"></i> {{ VBLOG_TOT_LIKED }}</div>
+					</dd>
+					<dt>{{ lang('VBLOG_TOT_DISLIKED') ~ lang('COLON') }}</dt>
+					<dd>
+						<div><i class="icon fa-thumbs-down fa-fw icon-red"></i > {{ VBLOG_TOT_DISLIKED }}</div>
+					</dd>
+
+					<dt>{{ lang('VBLOG_TOT_COMMENTS_MADE') ~ lang('COLON') }}</dt>
+					<dd>
+						<div><i class="icon fa-comments-o fa-fw icon-blue"></i> {{ VBLOG_TOT_COM }}</div>
+					</dd>
+					<dt>{{ lang('VBLOG_TOT_LIKES') ~ lang('COLON') }}</dt>
+					<dd>
+						<div><i class="icon fa-thumbs-up fa-fw icon-green"></i> {{ VBLOG_TOT_LIKES }}</div>
+					</dd>
+					<dt>{{ lang('VBLOG_TOT_DISLIKES') ~ lang('COLON') }}</dt>
+					<dd>
+						<div><i class="icon fa-thumbs-down fa-fw icon-red"></i > {{ VBLOG_TOT_DISLIKES }}</div>
+					</dd>
+				</dl>
+			</div>
+
+		</div>
+	</div>

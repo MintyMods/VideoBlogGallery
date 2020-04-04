@@ -1,0 +1,133 @@
+{% if not ENABLE_COMMENTS or (ENABLE_COMMENTS and S_COMMENTS_ENOUGH) or not VBLOG_AUTH_CAN_READ_COMMENTS %}
+	<div class="panel">
+		<div class="inner studio-center">
+			<span>
+				<i class="icon fa-exclamation-triangle fa-fw icon-red" aria-hidden="true"></i>
+				<strong>
+					{% if not ENABLE_COMMENTS %}
+						{{ lang('VBLOG_COMMENTS_LOCKED') }}
+					{% elseif not VBLOG_AUTH_CAN_READ_COMMENTS %}
+						{{ lang('VBLOG_NO_AUTH_READ_COMMENTS') }}
+					{% elseif ENABLE_COMMENTS and S_COMMENTS_ENOUGH %}
+						{{ lang('VBLOG_COMMENTS_ENOUGH') }}
+					{% endif %}
+				</strong>
+			</span>
+		</div>
+	</div>
+{% endif %}
+
+{% if VBLOG_AUTH_CAN_READ_COMMENTS %}
+
+	<div class="action-bar top">
+		{% if pagination|length or TOTAL_USERS %}
+			<div class="pagination">
+				{{ COUNT }}
+				{% if pagination|length %}
+					{% include 'pagination.html' %}
+				{% else %}
+					&bull; {{ PAGE_NUMBER }}
+				{% endif %}
+			</div>
+		{% endif %}
+	</div>
+
+	<hr>
+
+	{% INCLUDECSS '@phpbbstudio_vblog/vblog_comment.css' %}
+
+	<div id="studio_comments">
+		{% for comment in comments %}
+			<div class="studio-comment-container" id="c{{ comment.ID }}">
+				<div>
+					{% if comment.AVATAR %}
+						{{ comment.AVATAR }}
+					{% else %}
+						<img class="avatar" src="{{ comment.DEF_AVATAR }}" alt="User avatar" width="120" height="90">
+					{% endif %}
+
+					{% if comment.S_DELETE or comment.S_EDIT %}
+						<ul class="post-buttons">
+
+							{% if comment.S_EDIT %}
+								<li>
+									<a href="{{ comment.U_EDIT }}" title="{{ lang('BUTTON_EDIT') }}" class="button button-icon-only">
+										<i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span class="sr-only">{{ lang('BUTTON_EDIT') }}</span>
+									</a>
+								</li>
+							{% endif %}
+
+							{% if comment.S_DELETE %}
+								<li>
+									<a href="{{ comment.U_DELETE }}" title="{{ lang('BUTTON_DELETE') }}" class="button button-icon-only">
+										<i class="icon fa-times fa-fw" aria-hidden="true"></i><span class="sr-only">{{ lang('BUTTON_DELETE') }}</span>
+									</a>
+								</li>
+							{% endif %}
+
+						{# @todo: take care of pagination for URLs like /3di/2/1?start=6?c=2#c2 #}
+						{# commented for the moment
+							<li>
+								<a href="{{ comment.URL }}" title="{{ lang('VBLOG_BUTTON_URL') }}" class="button button-icon-only">
+									<i class="icon fa-bookmark-o fa-fw" aria-hidden="true"></i><span class="sr-only">{{ lang('VBLOG_BUTTON_URL') }}</span>
+								</a>
+							</li>
+						#}
+
+						</ul>
+					{% endif %}
+				</div>
+				<p>{{ comment.POSTER_NAME }}</p>
+				<p><em>{{ comment.TIME }}</em></p>
+				<hr>
+				<p>{{ comment.COMMENT }}</p>
+
+				{% if comment.EDIT_TIME %}
+					<hr class="studio-hr-dashed-1">
+					<p><span class="studio-font-10-right"><em>{{ lang('VBLOG_LAST_EDIT') }} {{ comment.EDIT_BY_ID }} &bull; {{ comment.EDIT_TIME }}</em></span></p>
+				{% endif %}
+			</div>
+		{% else %}
+			<div class="panel" id="studio_comments_empty">
+				<div class="inner studio-center">
+					<span><i class="icon fa-commenting-o fa-fw icon-green" aria-hidden="true"></i><strong>{{ lang('VBLOG_NO_COMMENTS') }}</strong> </span>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+
+	<hr>
+
+	<div class="action-bar">
+		{% if pagination|length or TOTAL_USERS %}
+			<div class="pagination">
+				{{ COUNT }}
+				{% if pagination|length %}
+					{% include 'pagination.html' %}
+				{% else %}
+					&bull; {{ PAGE_NUMBER }}
+				{% endif %}
+			</div>
+		{% endif %}
+	</div>
+
+{% endif %}
+
+{% if not ENABLE_COMMENTS or (ENABLE_COMMENTS and S_COMMENTS_ENOUGH) or not VBLOG_AUTH_CAN_READ_COMMENTS %}
+	<div class="panel">
+		<div class="inner studio-center">
+			<span>
+				<i class="icon fa-exclamation-triangle fa-fw icon-red" aria-hidden="true"></i>
+				<strong>
+					{% if not ENABLE_COMMENTS %}
+						{{ lang('VBLOG_COMMENTS_LOCKED') }}
+					{% elseif not VBLOG_AUTH_CAN_READ_COMMENTS %}
+						{{ lang('VBLOG_NO_AUTH_READ_COMMENTS') }}
+					{% elseif ENABLE_COMMENTS and S_COMMENTS_ENOUGH %}
+						{{ lang('VBLOG_COMMENTS_ENOUGH') }}
+					{% endif %}
+				</strong>
+			</span>
+		</div>
+	</div>
+{% endif %}

@@ -1,0 +1,65 @@
+/**
+ *
+ * phpBB Studio - Video blog gallery. An extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2020, phpBB Studio, https://www.phpbbstudio.com
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
+
+.studio-comment-container {
+	font-size: 14px;
+	background-color: #e2ecec;
+	border: 1px solid #cccccc;
+	border-radius: 8px;
+	box-shadow: 1px 2px 3px #6f6d6d;
+	color: #105289;
+	position: relative;
+	margin: 6px;
+	padding: 6px 10px;
+}
+
+.studio-comment-container:after {
+	display: table;
+	clear: both;
+	content: "";
+}
+
+.studio-comment-container > div > img {
+	background-color: transparent;
+	border: 2px solid #2a769b;
+	border-radius: 50% 0 0 50%;
+	box-shadow: 0 0 0 2px #53aec4 inset;
+	display: block;
+	float: left;
+	width: 40px;
+	height: 40px;
+	margin-right: 4px;
+	margin-bottom: 4px;
+	padding: 2px;
+}
+
+.studio-comment-container > div > img:hover {
+	transition-duration: 0.3s;
+	transform: scale(1.1);
+}
+
+.studio-comment-container ul,
+.studio-comment-container ol {
+	margin: 0 0 1em 3em;
+}
+
+.studio-comment-container p {
+	font-size: 12px;
+	line-height: 18px;
+	margin-bottom: 10px;
+}
+
+.studio-font-10-right {
+	font-size: 10px;
+	float: right;
+}
+
+.studio-hr-dashed-1 {
+	border-top: 1px dashed;
+}

@@ -1,0 +1,52 @@
+phpbbstudio_vgallery_controller:
+    path: /vgallery/{username}/{gallery_id}/{video_id}/{comment_id}
+    defaults:
+        _controller: phpbbstudio.vblog.controller.main:handle
+        username: ''
+        gallery_id: ''
+        video_id: ''
+        comment_id: 0
+
+phpbbstudio_vgallery_pagination:
+    path: /vgallery
+    defaults:
+        _controller: phpbbstudio.vblog.controller.main:overview
+
+phpbbstudio_vgallery_gallery_pagination:
+    path: /vgallery/{username}/{gallery_id}
+    defaults:
+        _controller: phpbbstudio.vblog.controller.main:view_gallery
+
+phpbbstudio_vgallery_user_pagination:
+    path: /vgallery/{username}
+    defaults:
+        _controller: phpbbstudio.vblog.controller.main:view_user
+
+phpbbstudio_vgallery_video_pagination:
+    path: /vgallery/{username}/{gallery_id}/{video_id}
+    defaults:
+        _controller: phpbbstudio.vblog.controller.main:view_video
+
+phpbbstudio_vblog_controller:
+    path: /vblog/{username}/{gallery_id}/{video_id}/{comment_id}
+    defaults:
+        _controller: phpbbstudio.vblog.controller.vblog:handle
+        username: ''
+        gallery_id: ''
+        video_id: ''
+        comment_id: 0
+
+phpbbstudio_vblog_user_pagination:
+    path: /vblog/{username}
+    defaults:
+        _controller: phpbbstudio.vblog.controller.vblog:view_user
+
+phpbbstudio_vblog_gallery_pagination:
+    path: /vblog/{username}/{gallery_id}
+    defaults:
+        _controller: phpbbstudio.vblog.controller.vblog:view_gallery
+
+phpbbstudio_vblog_video_pagination:
+    path: /vblog/{username}/{gallery_id}/{video_id}
+    defaults:
+        _controller: phpbbstudio.vblog.controller.vblog:view_video

@@ -1,0 +1,817 @@
+{% include 'overall_header.html' %}
+
+{% if not definition.INCLUDED_VBLOGCOMMONCSS %}
+	{% INCLUDECSS '@phpbbstudio_vblog/vblog_common.css' %}
+	{% DEFINE INCLUDED_VBLOGCOMMONCSS = true %}
+{% endif %}
+
+<div class="studio-center">
+	<a class="main-button" href="{{ path('phpbbstudio_vgallery_controller') }}">
+		<span><strong>{{ lang('VBLOG_VIDEOS') }}</strong></span> <i class="icon fa-video-camera fa-fw" aria-hidden="true"></i>
+	</a>
+	<a class="main-button" href="{{ path('phpbbstudio_vgallery_controller') ~ '?mode=categories' }}">
+		<span><strong>{{ lang('VBLOG_CATEGORIES') }}</strong></span> <i class="icon fa-list-alt fa-fw" aria-hidden="true"></i>
+	</a>
+	<a class="main-button" href="{{ path('phpbbstudio_vgallery_controller') ~ '?mode=galleries' }}">
+		<span><strong>{{ lang('VBLOG_GALLERIES') }}</strong></span> <i class="icon fa-list fa-fw" aria-hidden="true"></i>
+	</a>
+</div>
+
+{% if S_IN_GALLERY %}
+
+	<h2 class="studio-center">{{ lang('VBLOG_GAL_PAGE_USER') }} {{ GALLERY_USERNAME }}</h2>
+
+	{% if S_IS_GALLERY %}
+
+	{% INCLUDECSS '@phpbbstudio_vblog/vblog_main_mode_galleries.css' %}
+
+		{% if galleries|length %}
+
+			<div class="action-bar top">
+				{% if pagination|length or TOTAL_USERS %}
+				<div class="pagination">
+					{{ COUNT }}
+					{% if pagination|length %}
+						{% include 'pagination.html' %}
+					{% else %}
+						&bull; {{ PAGE_NUMBER }}
+					{% endif %}
+				</div>
+				{% endif %}
+			</div>
+
+			<hr>
+
+			<div class="studio-center">
+				<main class="grid">
+					{% for gallery in galleries %}
+						<article>
+							<p></p>
+							<p title="{{ gallery.TITLE }}"><strong>{{ lang('VBLOG_GALLERY') ~ lang('COLON') }}</strong> {{ gallery.TITLE }}</p>
+
+							<figure>
+								<img src="{{ (gallery.URL_COVER) ? gallery.URL_COVER : 'https://placeimg.com/300/200' }}" alt="{{ lang('VBLOG_GALLERY') }} {{  lang('VBLOG_COVER') }}">
+							</figure>
+
+							<footer class="text">
+								<div>
+									<p><strong>{{ gallery.USER_NAME }}</strong> &bull; <strong>{{ gallery.TIME|date('d-m-Y H:i') }}</strong></p>
+									<p><strong>{{ lang('VBLOG_TOT_VIDEOS') ~ lang('COLON') }}</strong> 
+										{{ (gallery.TOT_VIDEOS) ? gallery.TOT_VIDEOS : lang('VBLOG_NONE') }}
+									</p>
+								<hr>
+									<p class="studio-ellipsis" title="{{ (gallery.DESCRIPTION) ? gallery.DESCRIPTION : lang('VBLOG_NO_DESCRO') }}">
+										{{ (gallery.DESCRIPTION) ? gallery.DESCRIPTION : lang('VBLOG_NO_DESCRO') }}
+									</p>
+								</div>
+
+								{% if gallery.TOT_VIDEOS %}
+									<div class="studio-center">
+										<a class="main-button main-button-2" href="{{ gallery.U_TO_VIDEOS }}" title="{{ lang('VBLOG_TO_THE_VIDEOS') }}">
+											<span><strong>{{ lang('VBLOG_TO_THE_VIDEOS') }}</strong></span>
+											<i class="icon fa-television fa-fw" aria-hidden="true"></i>
+										</a>
+									</div>
+								{% endif %}
+							</footer>
+						</article>
+					{% endfor %}
+				</main>
+			</div>
+
+			<hr>
+
+			<div class="action-bar">
+				{% if pagination|length or TOTAL_USERS %}
+				<div class="pagination">
+					{{ COUNT }}
+					{% if pagination|length %}
+						{% include 'pagination.html' %}
+					{% else %}
+						&bull; {{ PAGE_NUMBER }}
+					{% endif %}
+				</div>
+				{% endif %}
+			</div>
+
+		{% endif %}
+
+	{% else %}
+		<div class="panel">
+			<div class="inner studio-center">
+				<span>
+					<strong>{{ lang('VBLOG_NO_PAGE') }}</strong>
+				</span>
+			</div>
+		</div>
+	{% endif %}
+
+{% elseif S_IN_VIDEOS %}
+
+	<h2 class="studio-center"> {{ lang('VBLOG_THIS_USER_GAL') }} {{ GALLERY_USERNAME }}</h2>
+
+	{% if S_IS_VIDEOS %}
+
+		{% if not definition.INCLUDED_VBLOGUCPCSS %}
+			{% INCLUDECSS '@phpbbstudio_vblog/vblog_ucp.css' %}
+			{% DEFINE INCLUDED_VBLOGUCPCSS = true %}
+		{% endif %}
+
+		{% if videos|length %}
+
+			{% if not definition.INCLUDED_VBLOGBBCODEJS %}
+				{% include '@phpbbstudio_vblog/vblog_bbcode.html' %}
+				{% INCLUDEJS '@phpbbstudio_vblog/js/vblog_bbcode.js' %}
+				{% DEFINE INCLUDED_VBLOGBBCODEJS = true %}
+			{% endif %}
+
+			{% if not definition.INCLUDED_SWEETALERT209JS %}
+				{% INCLUDEJS '@phpbbstudio_vblog/js/sweetalert2@9.js' %}
+				{% DEFINE INCLUDED_SWEETALERT209JS = true %}
+			{% endif %}
+
+			<div class="action-bar top">
+				{% if pagination|length or TOTAL_USERS %}
+				<div class="pagination">
+					{{ COUNT }}
+					{% if pagination|length %}
+						{% include 'pagination.html' %}
+					{% else %}
+						&bull; {{ PAGE_NUMBER }}
+					{% endif %}
+				</div>
+				{% endif %}
+			</div>
+
+			<hr>
+
+			<div class="studio-center">
+				<main class="grid">
+				{% for video in videos %}
+
+					{% if not video.IS_PRIVATE  %}
+
+						<article>
+
+							<h3 class="text" title="{{ lang('VBLOG_CATEGORY') ~ lang('COLON') }} {{ (video.CATEGORY) ? video.CATEGORY : lang('VBLOG_NONE') }}">
+								{{ (video.CATEGORY) ? video.CATEGORY : lang('VBLOG_NONE') }}
+							</h3>
+
+							<video oncontextmenu="return false;" controls preload="metadata">{# poster="../images/videos/imgs/cioccoluna.jpg" #}
+								<source src="{{ video.URL }}" type="{{ video.MIMETYPE }}">
+								<p>{{ lang('VBLOG_NO_HTML5') }}</p>
+							</video>
+
+							<div class="text">
+								<h3>{{ video.TITLE }}</h3>
+
+								<p><strong>{{ video.SIZE }}</strong></p>
+								<p><strong>{{ video.USER_NAME }}</strong> &bull; <span title="{{ lang('VBLOG_POSTED_ON') }}">{{ video.TIME|date('d-m-Y H:i') }}</span></p>
+
+								<p>
+									<i class="icon fa-eye fa-fw icon-blue" aria-hidden="true" title="{{ lang('VBLOG_VIDEO_VIEWS') }}"></i><span><strong>{{ video.NUM_VIEWS }}</strong></span>
+									&bull;
+									<i class="icon fa-comments-o fa-fw icon-blue" aria-hidden="true" title="{{ lang('VBLOG_COMMENTS_SO_FAR') }}"></i><span><strong>{{ video.NUM_COMMENTS }}</strong></span>
+								</p>
+
+								<p>
+									<i class="icon fa-commenting-o fa-fw icon-blue" aria-hidden="true" title="{{ lang('VBLOG_COMMENTS_ARE') }}"></i><span><strong>{{ (video.ENABLE_COMMENTS) ? lang('VBLOG_ON') : lang('VBLOG_OFF') }}</strong></span>
+									&bull;
+									{{ lang('VBLOG_LIMITED_TO') ~ lang('COLON') }} <strong>{{ video.MAX_COMMENTS }}</strong>
+								</p>
+
+								<hr>
+									<p class="studio-ellipsis" title="{{ (video.DESCRIPTION) ? video.DESCRIPTION : lang('VBLOG_NO_DESCRO') }}">
+										{{ (video.DESCRIPTION) ? video.DESCRIPTION : lang('VBLOG_NO_DESCRO') }}
+									</p>
+								<hr>
+
+								<div class="studio-center">
+									<a class="main-button main-button-2" href="{{ video.U_TO_VIDEO }}" title="{{ lang('VBLOG_TO_THE_VIDEOS') }}">
+										<span><strong>{{ lang('VBLOG_TO_THE_VBLOG') }}</strong></span>
+										<i class="icon fa-television fa-fw" aria-hidden="true"></i>
+									</a>
+								</div>
+								{% if VBLOG_AUTH_CAN_BBCODE %}
+									<hr>
+									<div class="studio-center">
+										<a class="button studio-button-blue" data-studio-vblog-copy="bbcode" title="{{ lang('VBLOG_COPY') }}">
+											<i class="icon fa-clipboard fa-fw" aria-hidden="true"></i>
+										</a>
+										<input class="studio-inputbox" name="studio_vblog_copy" value="{{ video.BBCODE }}" readonly>
+									</div>
+									<div class="studio-center">
+										<a class="button studio-button-orange" data-studio-vblog-copy="link" title="{{ lang('VBLOG_COPY') }}">
+											<i class="icon fa-clipboard fa-fw" aria-hidden="true"></i>
+										</a>
+										<input class="studio-inputbox" name="studio_vblog_copy" value="{{ video.P_LINK }}" readonly>
+									</div>
+								{% endif %}
+
+							</div>
+						</article>
+
+					{% endif %}
+
+				{% endfor %}
+				</main>
+			</div>
+
+			<hr>
+
+			<div class="action-bar">
+				{% if pagination|length or TOTAL_USERS %}
+				<div class="pagination">
+					{{ COUNT }}
+					{% if pagination|length %}
+						{% include 'pagination.html' %}
+					{% else %}
+						&bull; {{ PAGE_NUMBER }}
+					{% endif %}
+				</div>
+				{% endif %}
+			</div>
+
+		{% else %}
+			<div class="studio-center">
+				<strong>{{ lang('VBLOG_NO_VIDEOS') }}</strong>
+			</div>
+		{% endif %}
+
+	{% else %}
+		<div class="panel">
+			<div class="inner studio-center">
+				<span>
+					<i class="icon fa-exclamation-triangle fa-fw icon-red" aria-hidden="true"></i><span><strong>{{ lang('VBLOG_NO_DATA') }}</strong></span>
+				</span>
+			</div>
+		</div>
+	{% endif %}
+
+{% elseif S_IN_VIDEO %}
+
+	<h2 class="studio-center">{{ lang('VBLOG_VIDEO_PAGE') ~ lang('COLON') }} {{ TITLE }}</h2>
+
+	{% if S_IS_VIDEO and not IS_PRIVATE %}
+
+		{% if not definition.INCLUDED_VBLOGMAINVIDEOCSS %}
+			{% INCLUDECSS '@phpbbstudio_vblog/vblog_main_video.css' %}
+			{% DEFINE INCLUDED_VBLOGMAINVIDEOCSS = true %}
+		{% endif %}
+
+		<div class="studio-wrapper">
+		{# https://stackoverflow.com/a/54038716 #}
+			<article class="studio-center">
+				<video oncontextmenu="return false;" controls preload="metadata">{# poster="../images/videos/imgs/cioccoluna.jpg" #}
+					<source src="{{ URL }}" type="{{ MIMETYPE }}">
+					<p>{{ lang('VBLOG_NO_HTML5') }}</p>
+				</video>
+
+				<div class="text">
+					<h3>
+						<i class="icon {{ IS_PRIVATE ? 'fa-thumb-tack icon-red' : 'fa-unlock icon-green' }} fa-fw" title="{{ IS_PRIVATE ? lang('VBLOG_PRIVATE') : lang('VBLOG_PUBLIC') }}" aria-hidden="true"></i>
+						{{ TITLE }}
+						&bull;
+						<strong>{{ SIZE }}</strong>
+					</h3>
+
+					<p>
+						<strong>{{ USER_NAME }}</strong>
+						&bull;
+						<span title="{{ lang('VBLOG_GALLERY_POSTED_ON') }}">{{ TIME|date('d-m-Y H:i') }}</span>
+						&bull;
+						<i class="icon fa-eye fa-fw icon-blue" aria-hidden="true" title="{{ lang('VBLOG_VIDEO_VIEWS') }}"></i> <span><strong>{{ NUM_VIEWS }}</strong> {{ lang('VBLOG_VIDEO_VIEWS') }}</span>
+					</p>
+
+					{% if VBLOG_AUTH_CAN_VOTE %}
+						<div>
+							{{ VIDEO_LIKES }}
+							<a class="vote-button" {% if not S_USER_LIKED %}title="{{ lang('VBLOG_LIKE') }}" href="{{ U_VIDEO_LIKE }}" onclick="Swal.fire({title: '{{ lang('VBLOG_VOTE_CASTING')|e('js') }}', text: '{{ lang('VBLOG_VOTE_PROGRESS')|e('js') }}', onBeforeOpen: () => { Swal.showLoading(); }});" {% if not S_AJAX_DEBUG %}data-ajax="vblogvote" data-refresh="true"{% endif %}{% else %}title="{{ lang('VBLOG_YOU_LIKED') }}"{% endif %}>
+								<i class="icon fa-thumbs-up fa-fw icon-green" aria-hidden="true"></i>
+							</a>
+							&bull;
+							<a class="vote-button" {% if not S_USER_DISLIKED %}title="{{ lang('VBLOG_DISLIKE') }}"href="{{ U_VIDEO_DISLIKE }}" onclick="Swal.fire({title: '{{ lang('VBLOG_VOTE_CASTING')|e('js') }}', text: '{{ lang('VBLOG_VOTE_PROGRESS')|e('js') }}', onBeforeOpen: () => { Swal.showLoading(); }});" {% if not S_AJAX_DEBUG %}data-ajax="vblogvote" data-refresh="true"{% endif %}{% else %}title="{{ lang('VBLOG_YOU_DISLIKED') }}"{% endif %}>
+								<i class="icon fa-thumbs-down fa-fw icon-red" aria-hidden="true"></i>
+							</a>
+							{{ VIDEO_DISLIKES }}
+						</div>
+						<br>
+					{% endif %}
+
+					<a href="{{ U_BACK_GALLERY }}" class="vblog-button" title="Back to the gallery">
+						<i class="icon fa-arrow-left fa-fw icon-blue" aria-hidden="true"></i>
+						<span><strong>{{ lang('VBLOG_GALLERY') }}</strong></span>
+					</a>
+
+					{% if U_VIDEO_EDIT %}
+						<a href="{{ U_VIDEO_EDIT }}" class="vblog-button" title="{{ lang('VBLOG_EDIT') }}">
+							<i class="icon fa-pencil fa-fw icon-green" aria-hidden="true"></i>
+							<span><strong>{{ lang('VBLOG_EDIT') }}</strong></span>
+						</a>
+					{% endif %}
+
+					{% if U_VIDEO_DELETE %}
+						<a href="{{ U_VIDEO_DELETE }}" class="vblog-button" title="{{ lang('VBLOG_DELETE') }}">
+							<i class="icon fa-eraser fa-fw icon-red" aria-hidden="true"></i>
+							<span><strong>{{ lang('VBLOG_DELETE') }}</strong></span>
+						</a>
+					{% endif %}
+
+					{% if U_VIDEO_FORK %}
+						<a href="{{ U_VIDEO_FORK }}" class="vblog-button" title="{{ lang('VBLOG_FORK') }}">
+							<i class="icon fa-code-fork fa-fw icon-blue" aria-hidden="true"></i>
+							<span><strong>{{ lang('VBLOG_FORK') }}</strong></span>
+						</a>
+					{% endif %}
+
+					{% if S_VIDEO_SUBSCRIBE %}
+						{% if S_VIDEO_SUBSCRIBED %}
+							<a class="vblog-button" href="{{ U_VIDEO_UNSUBSCRIBE }}" title="{{ lang('VBLOG_UNSUBSCRIBE') }}" onclick="Swal.fire({title: '{{ lang('VBLOG_UNSUBSCRIBE')|e('js') }}', text: '{{ lang('VBLOG_VOTE_PROGRESS')|e('js') }}', onBeforeOpen: () => { Swal.showLoading(); }});" {% if not S_AJAX_DEBUG %}data-ajax="true" data-refresh="true"{% endif %}>
+								<i class="icon fa-rss fa-fw icon-green" aria-hidden="true"></i>
+								<span><strong>{{ lang('VBLOG_SUBSCRIBED') }}</strong></span>
+							</a>
+						{% else %}
+							<a class="vblog-button" href="{{ U_VIDEO_SUBSCRIBE }}" title="{{ lang('VBLOG_SUBSCRIBE') }}" onclick="Swal.fire({title: '{{ lang('VBLOG_SUBSCRIBE')|e('js') }}', text: '{{ lang('VBLOG_VOTE_PROGRESS')|e('js') }}', onBeforeOpen: () => { Swal.showLoading(); }});" {% if not S_AJAX_DEBUG %}data-ajax="true" data-refresh="true"{% endif %}>
+								<i class="icon fa-rss fa-fw icon-blue" aria-hidden="true"></i>
+								<span><strong>{{ lang('VBLOG_SUBSCRIBE') }}</strong></span>
+							</a>
+						{% endif %}
+					{% endif %}
+
+				</div>
+			</article>
+		</div>
+
+		{% if VBLOG_AUTH_CAN_BBCODE %}
+
+			{% if not definition.INCLUDED_VBLOGBBCODEJS %}
+				{% include '@phpbbstudio_vblog/vblog_bbcode.html' %}
+				{% INCLUDEJS '@phpbbstudio_vblog/js/vblog_bbcode.js' %}
+				{% DEFINE INCLUDED_VBLOGBBCODEJS = true %}
+			{% endif %}
+
+			{% if not definition.INCLUDED_SWEETALERT209JS %}
+				{% INCLUDEJS '@phpbbstudio_vblog/js/sweetalert2@9.js' %}
+				{% DEFINE INCLUDED_SWEETALERT209JS = true %}
+			{% endif %}
+
+			<p>
+
+			<div class="inner studio-center">
+				<fieldset class="submit-buttons">
+					<a class="button studio-button-blue" data-studio-vblog-copy="bbcode" title="{{ lang('VBLOG_COPY') }}">
+						<i class="icon fa-clipboard fa-fw" aria-hidden="true"></i>
+					</a>
+					<input class="inputbox" name="studio_vblog_copy" value="{{ BBCODE }}" readonly>
+				</fieldset>
+
+				<fieldset class="submit-buttons">
+					<a class="button studio-button-orange" data-studio-vblog-copy="link" title="{{ lang('VBLOG_COPY') }}">
+						<i class="icon fa-clipboard fa-fw" aria-hidden="true"></i>
+					</a>
+					<input class="inputbox" name="studio_vblog_copy" value="{{ P_LINK }}" readonly>
+				</fieldset>
+			</div>
+
+		{% endif %}
+
+		<div>
+			<h2 class="studio-center">{{ lang('VBLOG_V_DESCRO') }}</h2>
+			<div class="panel">
+				<div class="inner">
+					<p>{{ (DESCRIPTION) ? DESCRIPTION : lang('VBLOG_NO_DESCRO') }}</p>
+				</div>
+			</div>
+		</div>
+
+		<hr>
+
+		<h2 class="studio-center">{{ lang('VBLOG_COMMENTS') }}</h2>
+
+		{% if ENABLE_COMMENTS and not S_COMMENTS_ENOUGH and VBLOG_AUTH_CAN_COMMENT %}
+			{% include 'common_comment_form.html' with {S_QUICK_REPLY: true} %}
+		{% endif %}
+
+		{% include 'common_comments.html' %}
+
+	{% else %}
+		<div class="panel">
+			<div class="inner studio-center">
+				<i class="{{ (IS_PRIVATE) ? 'icon fa-thumb-tack fa-fw icon-red' : 'icon fa-unlock fa-fw icon-green' }}" aria-hidden="true"></i>
+				<span><strong>{{ (IS_PRIVATE) ? lang('VBLOG_V_PRIVATE') : lang('VBLOG_V_NOT_FOUND') }}</strong></span>
+			</div>
+		</div>
+	{% endif %}
+
+{% else %}
+
+	{% if S_IS_GALLERY_VID %}
+
+	<h2 class="studio-center">{{ lang('VBLOG_ALL_P_VIDEO_ORDER') }}</h2>
+
+		{% if not definition.INCLUDED_VBLOGUCPCSS %}
+			{% INCLUDECSS '@phpbbstudio_vblog/vblog_ucp.css' %}
+			{% DEFINE INCLUDED_VBLOGUCPCSS = true %}
+		{% endif %}
+
+		{% if videos|length %}
+
+			{% if not definition.INCLUDED_VBLOGBBCODEJS %}
+				{% include '@phpbbstudio_vblog/vblog_bbcode.html' %}
+				{% INCLUDEJS '@phpbbstudio_vblog/js/vblog_bbcode.js' %}
+				{% DEFINE INCLUDED_VBLOGBBCODEJS = true %}
+			{% endif %}
+
+			{% if not definition.INCLUDED_SWEETALERT209JS %}
+				{% INCLUDEJS '@phpbbstudio_vblog/js/sweetalert2@9.js' %}
+				{% DEFINE INCLUDED_SWEETALERT209JS = true %}
+			{% endif %}
+
+			<div class="action-bar top">
+				{% if pagination|length or TOTAL_USERS %}
+				<div class="pagination">
+					{{ COUNT }}
+					{% if pagination|length %}
+						{% include 'pagination.html' %}
+					{% else %}
+						&bull; {{ PAGE_NUMBER }}
+					{% endif %}
+				</div>
+				{% endif %}
+			</div>
+
+			<hr>
+
+			<div class="studio-center">
+				<main class="grid">
+					{% for video in videos %}
+						<article>
+							<p></p>
+							<p title="{{ lang('VBLOG_CATEGORY') ~ lang('COLON') ~ ' ' ~ video.CATEGORY }}"><strong>{{ lang('VBLOG_CATEGORY') ~ lang('COLON') }}</strong> {{ video.CATEGORY }}</p>
+
+							<video oncontextmenu="return false;" controls preload="metadata">{# poster="../images/videos/imgs/cioccoluna.jpg" #}
+								<source src="{{ video.URL }}" type="{{ video.MIMETYPE }}">
+								<p>{{ lang('VBLOG_NO_HTML5') }}</p>
+							</video>
+
+							<div class="text">
+								<p><strong>{{ video.USER_NAME }}</strong> &bull; <span title="{{ lang('VBLOG_POSTED_ON') }}">{{ video.TIME|date('d-m-Y H:i') }}</span></p>
+
+								<p><strong>{{ lang('VBLOG_TITLE') ~ lang('COLON') }}</strong> {{ video.TITLE }}</p>
+
+								<p>
+									<i class="icon fa-eye fa-fw icon-blue" aria-hidden="true" title="{{ lang('VBLOG_VIDEO_VIEWS') }}"></i>
+									<span><strong>{{ video.NUM_VIEWS }}</strong></span>
+									&bull;
+									<i class="icon fa-comments-o fa-fw icon-blue" aria-hidden="true" title="{{ lang('VBLOG_COMMENTS_SO_FAR') }}"></i>
+									<span><strong>{{ video.NUM_COMMENTS }}</strong></span>
+								</p>
+
+								<p>
+									<i class="icon fa-commenting-o fa-fw icon-blue" aria-hidden="true" title="{{ lang('VBLOG_COMMENTS_ARE') }}"></i>
+									<span><strong>{{ (video.ENABLE_COMMENTS) ? lang('VBLOG_ON') : lang('VBLOG_OFF') }}</strong></span>
+									&bull;
+									{{ lang('VBLOG_LIMITED_TO') ~ lang('COLON') }} <strong>{{ video.MAX_COMMENTS }}</strong>
+								</p>
+
+								<hr>
+									<p class="studio-ellipsis" title="{{ (video.DESCRIPTION) ? video.DESCRIPTION : lang('VBLOG_NO_DESCRO') }}">
+										{{ (video.DESCRIPTION) ? video.DESCRIPTION : lang('VBLOG_NO_DESCRO') }}
+									</p>
+								<hr>
+
+								<div class="studio-center">
+									<a class="main-button main-button-2" href="{{ video.U_TO_VIDEO }}" title="{{ lang('VBLOG_TO_THE_VIDEOS') }}">
+										<span><strong>{{ lang('VBLOG_TO_THE_VBLOG') }}</strong></span>
+										<i class="icon fa-television fa-fw" aria-hidden="true"></i>
+									</a>
+								</div>
+
+								{% if VBLOG_AUTH_CAN_BBCODE %}
+									<hr>
+									<div class="studio-center">
+										<a class="button studio-button-blue" data-studio-vblog-copy="bbcode" title="{{ lang('VBLOG_COPY') }}">
+											<i class="icon fa-clipboard fa-fw" aria-hidden="true"></i>
+										</a>
+										<input class="studio-inputbox" name="studio_vblog_copy" value="{{ video.BBCODE }}" readonly>
+									</div>
+									<div class="studio-center">
+										<a class="button studio-button-orange" data-studio-vblog-copy="link" title="{{ lang('VBLOG_COPY') }}">
+											<i class="icon fa-clipboard fa-fw" aria-hidden="true"></i>
+										</a>
+										<input class="studio-inputbox" name="studio_vblog_copy" value="{{ video.P_LINK }}" readonly>
+									</div>
+								{% endif %}
+
+							</div>
+						</article>
+					{% endfor %}
+				</main>
+			</div>
+
+			<hr>
+
+			<div class="action-bar">
+				{% if pagination|length or TOTAL_USERS %}
+				<div class="pagination">
+					{{ COUNT }}
+					{% if pagination|length %}
+						{% include 'pagination.html' %}
+					{% else %}
+						&bull; {{ PAGE_NUMBER }}
+					{% endif %}
+				</div>
+				{% endif %}
+			</div>
+
+		{% endif %}
+
+	{% elseif S_IS_GALLERY_GALS and S_IS_GALLERY_GALS_SWITCH %}
+
+		{% INCLUDECSS '@phpbbstudio_vblog/vblog_main_mode_galleries.css' %}
+
+		{% if galleries|length %}
+			<h2 class="studio-center">{{ lang('VBLOG_ALL_P_GALLERIES_ORDER') }}</h2>
+
+			<div class="action-bar top">
+				{% if pagination|length or TOTAL_USERS %}
+				<div class="pagination">
+					{{ COUNT }}
+					{% if pagination|length %}
+						{% include 'pagination.html' %}
+					{% else %}
+						&bull; {{ PAGE_NUMBER }}
+					{% endif %}
+				</div>
+				{% endif %}
+			</div>
+
+			<hr>
+
+			<div class="studio-center">
+				<main class="grid">
+					{% for gallery in galleries %}
+						{% if gallery.TOT_VIDEOS %}
+								<article>
+									<p></p>
+									<p title="{{ gallery.TITLE }}"><strong>{{ lang('VBLOG_GALLERY') ~ lang('COLON') }}</strong> {{ gallery.TITLE }}</p>
+
+									<figure>
+										<img src="{{ (gallery.URL_COVER) ? gallery.URL_COVER : 'https://placeimg.com/300/200' }}" alt="{{ lang('VBLOG_GALLERY') }} {{  lang('VBLOG_COVER') }}">
+									</figure>
+
+									<footer class="text">
+										<div>
+											<p><strong>{{ gallery.USER_NAME }}</strong> &bull; <strong>{{ gallery.TIME|date('d-m-Y H:i') }}</strong></p>
+
+											<p><strong>{{ lang('VBLOG_PUB_VIDEOS') ~ lang('COLON') }}</strong> 
+												{{ (gallery.TOT_VIDEOS) ? gallery.TOT_VIDEOS : lang('VBLOG_NONE') }}
+											</p>
+
+											<hr>
+												<p class="studio-ellipsis" title="{{ (gallery.DESCRIPTION) ? gallery.DESCRIPTION : lang('VBLOG_NO_DESCRO') }}">
+													{{ (gallery.DESCRIPTION) ? gallery.DESCRIPTION : lang('VBLOG_NO_DESCRO') }}
+												</p>
+											<hr>
+										</div>
+
+										{% if gallery.TOT_VIDEOS %}
+											<div class="studio-center">
+												<a class="main-button main-button-2" href="{{ gallery.U_TO_VIDEOS }}" title="{{ lang('VBLOG_TO_THE_VIDEOS') }}">
+													<span><strong>{{ lang('VBLOG_TO_THE_VIDEOS') }}</strong></span>
+													<i class="icon fa-television fa-fw" aria-hidden="true"></i>
+												</a>
+											</div>
+										{% endif %}
+
+									</footer>
+								</article>
+						{% endif %}
+					{% endfor %}
+				</main>
+			</div>
+
+			<hr>
+
+			<div class="action-bar">
+				{% if pagination|length or TOTAL_USERS %}
+				<div class="pagination">
+					{{ COUNT }}
+					{% if pagination|length %}
+						{% include 'pagination.html' %}
+					{% else %}
+						&bull; {{ PAGE_NUMBER }}
+					{% endif %}
+				</div>
+				{% endif %}
+			</div>
+
+		{% endif %}
+
+	{% elseif S_IS_GALLERY_CATS %}
+
+		<h2 class="studio-center">{{ lang('VBLOG_ALL_CATS_ORDER') }}</h2>
+
+		{% INCLUDECSS '@phpbbstudio_vblog/vblog_main_mode_galleries.css' %}
+
+		{% if categories|length %}
+			<div class="action-bar top">
+				{% if pagination|length or TOTAL_USERS %}
+				<div class="pagination">
+					{{ COUNT }}
+					{% if pagination|length %}
+						{% include 'pagination.html' %}
+					{% else %}
+						&bull; {{ PAGE_NUMBER }}
+					{% endif %}
+				</div>
+				{% endif %}
+			</div>
+
+			<hr>
+			<div class="studio-center">
+				<main class="grid">
+					{% for category in categories %}
+						<article>
+							<p></p>
+							<p title="{{ lang('VBLOG_CATEGORY') ~ lang('COLON') }} {{ category.CATEGORY }}">
+								<strong>{{ lang('VBLOG_CATEGORY') ~ lang('COLON') }}</strong> {{ category.CATEGORY }}
+							</p>
+
+							<figure>
+								<img src="{{ (category.URL_COVER) ? category.URL_COVER : 'https://placeimg.com/300/200' }}" alt="{{ lang('VBLOG_CATEGORY') }} {{  lang('VBLOG_COVER') }}">
+							</figure>
+
+							<footer class="text">
+								<div>
+									<p><strong>{{ lang('VBLOG_TOT_VIDEOS') ~ lang('COLON') }}</strong> 
+										{{ (category.TOT_VIDEOS) ? category.TOT_VIDEOS : lang('VBLOG_NONE') }}
+									</p>
+									{% if VBLOG_AUTH_ADM_MOD %}
+										<p><strong>{{ lang('VBLOG_PRIORITY') ~ lang('COLON') }}</strong> 
+											{{ (category.PRIORITY) ? category.PRIORITY : lang('VBLOG_NONE') }}
+										</p>
+									{% endif %}
+								</div>
+
+								{% if category.TOT_VIDEOS %}
+									<div class="studio-center">
+										<a class="main-button main-button-2" href="{{ category.U_TO_VIDEOS }}" title="{{ lang('VBLOG_TO_THE_VIDEOS') }}">
+											<span><strong>{{ lang('VBLOG_TO_THE_VIDEOS') }}</strong></span>
+											<i class="icon fa-th-list fa-fw" aria-hidden="true"></i>
+										</a>
+									</div>
+								{% endif %}
+
+							</footer>
+						</article>
+					{% endfor %}
+				</main>
+			</div>
+
+			<hr>
+
+			<div class="action-bar">
+				{% if pagination|length or TOTAL_USERS %}
+				<div class="pagination">
+					{{ COUNT }}
+					{% if pagination|length %}
+						{% include 'pagination.html' %}
+					{% else %}
+						&bull; {{ PAGE_NUMBER }}
+					{% endif %}
+				</div>
+				{% endif %}
+			</div>
+
+		{% endif %}
+
+	{% elseif S_IS_CATEGORY_VID %}
+
+		<h2 class="studio-center">{{ lang('VBLOG_ALL_VIDEOS_ORDER') }}</h2>
+
+		{% if not definition.INCLUDED_VBLOGUCPCSS %}
+			{% INCLUDECSS '@phpbbstudio_vblog/vblog_ucp.css' %}
+			{% DEFINE INCLUDED_VBLOGUCPCSS = true %}
+		{% endif %}
+
+		{% if cat_videos|length %}
+
+			{% if not definition.INCLUDED_VBLOGBBCODEJS %}
+				{% include '@phpbbstudio_vblog/vblog_bbcode.html' %}
+				{% INCLUDEJS '@phpbbstudio_vblog/js/vblog_bbcode.js' %}
+				{% DEFINE INCLUDED_VBLOGBBCODEJS = true %}
+			{% endif %}
+
+			{% if not definition.INCLUDED_SWEETALERT209JS %}
+				{% INCLUDEJS '@phpbbstudio_vblog/js/sweetalert2@9.js' %}
+				{% DEFINE INCLUDED_SWEETALERT209JS = true %}
+			{% endif %}
+
+			<div class="action-bar top">
+				{% if pagination|length or TOTAL_USERS %}
+				<div class="pagination">
+					{{ COUNT }}
+					{% if pagination|length %}
+						{% include 'pagination.html' %}
+					{% else %}
+						&bull; {{ PAGE_NUMBER }}
+					{% endif %}
+				</div>
+				{% endif %}
+			</div>
+
+			<hr>
+
+			<div class="studio-center">
+				<main class="grid">
+				{% for video in cat_videos %}
+
+					{% if not video.IS_PRIVATE  %}
+
+						<article>
+							<video oncontextmenu="return false;" controls preload="metadata">{# poster="../images/videos/imgs/cioccoluna.jpg" #}
+								<source src="{{ video.URL }}" type="{{ video.MIMETYPE }}">
+								<p>{{ lang('VBLOG_NO_HTML5') }}</p>
+							</video>
+
+							<div class="text">
+								<h3>{{ video.TITLE }}</h3>
+
+								<p><strong>{{ video.SIZE }}</strong></p>
+								<p><strong>{{ video.USER_NAME }}</strong> &bull; <span title="{{ lang('VBLOG_POSTED_ON') }}">{{ video.TIME|date('d-m-Y H:i') }}</span></p>
+
+								<p>
+									<i class="icon fa-eye fa-fw icon-blue" aria-hidden="true" title="{{ lang('VBLOG_VIDEO_VIEWS') }}"></i>
+									<span><strong>{{ video.NUM_VIEWS }}</strong></span>
+									&bull;
+									<i class="icon fa-comments-o fa-fw icon-blue" aria-hidden="true" title="{{ lang('VBLOG_COMMENTS_SO_FAR') }}"></i>
+									<span><strong>{{ video.NUM_COMMENTS }}</strong></span>
+								</p>
+
+								<p>
+									<i class="icon fa-commenting-o fa-fw icon-blue" aria-hidden="true" title="{{ lang('VBLOG_COMMENTS_ARE') }}"></i>
+									<span><strong>{{ (video.ENABLE_COMMENTS) ? lang('VBLOG_ON') : lang('VBLOG_OFF') }}</strong></span>
+									&bull;
+									{{ lang('VBLOG_LIMITED_TO') ~ lang('COLON') }} <strong>{{ video.MAX_COMMENTS }}</strong>
+								</p>
+
+								<hr>
+									<p class="studio-ellipsis" title="{{ (video.DESCRIPTION) ? video.DESCRIPTION : lang('VBLOG_NO_DESCRO') }}">
+										{{ (video.DESCRIPTION) ? video.DESCRIPTION : lang('VBLOG_NO_DESCRO') }}
+									</p>
+
+								<hr>
+								<div class="studio-center">
+									<a class="main-button main-button-2" href="{{ video.U_TO_VIDEO }}" title="{{ lang('VBLOG_TO_THE_VIDEOS') }}">
+										<span><strong>{{ lang('VBLOG_TO_THE_VBLOG') }}</strong></span>
+										<i class="icon fa-television fa-fw" aria-hidden="true"></i>
+									</a>
+								</div>
+
+								{% if VBLOG_AUTH_CAN_BBCODE %}
+									<hr>
+									<div class="studio-center">
+										<a class="button studio-button-blue" data-studio-vblog-copy="bbcode" title="{{ lang('VBLOG_COPY') }}">
+											<i class="icon fa-clipboard fa-fw" aria-hidden="true"></i>
+										</a>
+										<input class="studio-inputbox" name="studio_vblog_copy" value="{{ video.BBCODE }}" readonly>
+									</div>
+									<div class="studio-center">
+										<a class="button studio-button-orange" data-studio-vblog-copy="link" title="{{ lang('VBLOG_COPY') }}">
+											<i class="icon fa-clipboard fa-fw" aria-hidden="true"></i>
+										</a>
+										<input class="studio-inputbox" name="studio_vblog_copy" value="{{ video.P_LINK }}" readonly>
+									</div>
+								{% endif %}
+
+							</div>
+						</article>
+
+					{% endif %}
+
+				{% endfor %}
+				</main>
+			</div>
+
+		{% else %}
+			<div class="studio-center">
+				<strong>{{ lang('VBLOG_NO_VIDEOS') }}</strong>
+			</div>
+		{% endif %}
+
+	{% else %}
+		<h2 class="studio-center">{{ VBLOG_MESSAGE }}</h2>
+
+		<div class="panel">
+			<div class="inner studio-center">
+				<span>
+					<i class="icon fa-exclamation-triangle fa-fw icon-red" aria-hidden="true"></i><span><strong>{{ lang('VBLOG_NO_DATA') }}</strong></span>
+				</span>
+			</div>
+		</div>
+	{% endif %}
+
+{% endif %}
+
+{% include 'overall_footer.html' %}

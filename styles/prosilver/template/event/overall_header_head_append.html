@@ -1,0 +1,5 @@
+{# Include - CSS #}
+{% if not definition.INCLUDED_VBLOGBBCODECSS %}
+	{% INCLUDECSS '@phpbbstudio_vblog/vblog_bbcode.css' %}
+	{% DEFINE INCLUDED_VBLOGBBCODECSS = true %}
+{% endif %}

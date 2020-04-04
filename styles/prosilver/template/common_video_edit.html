@@ -1,0 +1,110 @@
+		{% if S_EDIT_IN_ROUTE %}
+		{% include 'overall_header.html' %}
+		<div class="panel">
+			<div class="inner">
+
+				<h2>{{ lang('VBLOG_EDIT_VIDEO') }}</h2>
+		{% endif %}
+
+				<form id="{{ FORM_KEY }}" name="{{ FORM_KEY }}" method="post" action="{{ U_ACTION }}">
+					<fieldset>
+						{% if S_ERROR %}
+							<p class="error">{{ ERROR_MSG }}</p>
+						{% endif %}
+
+						<dl>
+							<dt><label for="vblog_video_title">{{ lang('VBLOG_VTITLE') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_VTITLE_EXP') }}</span></dt>
+							<dd><input class="inputbox autowidth" type="text" name="vblog_video_title" id="vblog_video_title" maxlength="55" value="{{ TITLE }}"></dd>
+						</dl>
+
+						<dl>
+							<dt>
+								<label for="vblog_video_category">{{ lang('VBLOG_CATEGORIES_SEL') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_CATEGORIES_SEL_EXP') }}</span>
+							</dt>
+							{% if CATEGORIES_SEL|length %}
+								<div>
+									<dd><select name="vblog_video_category" id="vblog_video_category" title="{{ lang('VBLOG_CATEGORIES_SEL_EXP') }}">{{ CATEGORIES_SEL }}</select></dd>
+								</div>
+							{% else %}
+								<div>
+									<dd><span style="color: #cccccc;"><strong>{{ lang('VBLOG_C_NONE') }}</strong></span></dd>
+								</div>
+							{% endif %}
+						</dl>
+
+						<dl>
+							<dt><label for="vblog_video_private">{{ lang('VBLOG_IS_PRIVATE') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_IS_PRIVATE_EXPLAIN') }}</span></dt>
+							<dd>
+								<label for="vblog_video_private1">
+									<input type="radio" name="vblog_video_private" id="vblog_video_private1" value="1"{% if S_VBLOG_PRIVATE %} checked="checked"{% endif %}> {{ lang('YES') }}
+								</label>
+								<label for="vblog_video_private0">
+									<input type="radio" name="vblog_video_private" id="vblog_video_private0" value="0"{% if not S_VBLOG_PRIVATE %} checked="checked"{% endif %}> {{ lang('NO') }}
+								</label>
+							</dd>
+						</dl>
+
+						<dl>
+							<dt><label for="vblog_video_comments">{{ lang('VBLOG_ENABLE_COMMENTS') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_ENABLE_COMMENTS_EXP') }}</span></dt>
+							<dd>
+								<label for="vblog_video_comments1">
+									<input type="radio" name="vblog_video_comments" id="vblog_video_comments1" value="1"{% if S_VBLOG_COMMENTS %} checked="checked"{% endif %}> {{ lang('YES') }}
+								</label>
+								<label for="vblog_video_comments0">
+									<input type="radio" name="vblog_video_comments" id="vblog_video_comments0" value="0"{% if not S_VBLOG_COMMENTS %} checked="checked"{% endif %}> {{ lang('NO') }}
+								</label>
+							</dd>
+						</dl>
+
+						<dl>
+							<dt><label for="vblog_video_max_comments">{{ lang('VBLOG_COMMENTS') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_COMMENTS_EXP') }}</span></dt>
+							<dd><input class="inputbox autowidth" type="number" name="vblog_video_max_comments" id="vblog_video_max_comments" min="0" value="{{ VBLOG_MAX_COMMENTS }}" title="{{ lang('VBLOG_COMMENTS_EXP') }}"></dd>
+						</dl>
+
+						<dl>
+							<dt>
+								<label for="vblog_gallery_id">{{ lang('VBLOG_GALLERIES_SEL') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_GALLERIES_SEL_EXP') }}</span>
+							</dt>
+							{% if GALLERIES_SEL|length %}
+								<div>
+									<dd>
+										<select name="vblog_gallery_id" id="vblog_gallery_id" title="{{ lang('VBLOG_GALLERIES_SEL_EXP') }}">{{ GALLERIES_SEL }}</select>
+									</dd>
+								</div>
+							{% endif %}
+						</dl>
+
+						<dl>
+							<dt><label for="vblog_video_description">{{ lang('VBLOG_V_DESCRO') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_V_DESCRO_EXP') }} {{ lang('VBLOG_V_DESCRO_MARKUP') }}</span></dt>
+							<dd>
+								<textarea style="height: 12px;" name="vblog_video_description" id="vblog_video_description" rows="7" cols="76" class="inputbox" placeholder="{{ DESCRIPTION }}" title="{{ lang('VBLOG_V_DESCRO_EXP') }}">{{ DESCRIPTION }}</textarea>
+							</dd>
+						</dl>
+					</fieldset>
+
+					<fieldset>
+						<dl>
+							<dt>&nbsp;</dt>
+							<dd>
+								<button class="button" id="submit" name="submit" type="submit">
+									<span>{{ lang('SUBMIT') }}</span>
+									<i class="icon fa-paper-plane fa-fw" aria-hidden="true"></i>
+								</button>
+
+								<button class="button" id="reset" name="reset" type="reset">
+									<span>{{ lang('RESET') }}</span>
+									<i class="icon fa-undo fa-fw" aria-hidden="true"></i>
+								</button>
+							</dd>
+						</dl>
+
+						{{ S_HIDDEN_FIELDS }}
+						{{ S_FORM_TOKEN }}
+					</fieldset>
+				</form>
+
+		{% if S_EDIT_IN_ROUTE %}
+			</div>
+		</div>
+		{% include 'overall_footer.html' %}
+		{% endif %}

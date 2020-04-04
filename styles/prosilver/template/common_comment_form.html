@@ -1,0 +1,74 @@
+{% if not S_QUICK_REPLY %}
+	{% include 'overall_header.html' %}
+
+	<h2>{{ lang('VBLOG_EDIT_COMMENT') }}</h2>
+{% endif %}
+
+{# Include - JS #}
+{% if not definition.INCLUDED_VBLOGCOMMONJS %}
+	{% INCLUDEJS '@phpbbstudio_vblog/js/vblog_common.js' %}
+	{% DEFINE INCLUDED_VBLOGCOMMONJS = true %}
+{% endif %}
+
+{# Include - CSS #}
+{% if not definition.INCLUDED_VBLOGCOMMONCSS %}
+	{% INCLUDECSS '@phpbbstudio_vblog/vblog_common.css' %}
+	{% DEFINE INCLUDED_VBLOGCOMMONCSS = true %}
+{% endif %}
+
+<form id="{{ FORM_KEY }}" name="{{ FORM_KEY }}" method="post" action="{{ U_COMMENT_ACTION }}"{% if S_COMMENT_AJAX and not S_AJAX_DEBUG %} data-ajax="vblog_comment_add"{% endif %}>
+	<div class="panel">
+		<div class="inner">
+
+			{% if S_ERROR %}
+				<p class="error">{{ ERROR_MSG }}</p>
+			{% endif %}
+
+			{% include 'posting_buttons.html' %}
+
+			<script>
+				var form_name = '{{ FORM_KEY }}';
+				var text_name = 'comment_text';
+			</script>
+
+			<div id="studio-comment-box" class="studio-comment-box">
+				<label for="comment_text"></label><textarea id="comment_text" name="comment_text" rows="15" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onfocus="initInsertions();" data-bbcode="true" placeholder="{{ lang('VBLOG_COMMENTS_PLACEHOLDER') ~ lang('ELLIPSIS') }}">{{ COMMENT_TEXT }}</textarea>
+			</div>
+			<br>
+			<div id="smiley-box" class="studio-center">
+				{% if S_SMILIES_ALLOWED and smiley|length %}
+					{% for smiley in smiley %}
+						<a href="#" onclick="insert_text('{{ smiley.A_SMILEY_CODE }}', true); return false;"><img src="{{ smiley.SMILEY_IMG }}" width="{{ smiley.SMILEY_WIDTH }}" height="{{	smiley.SMILEY_HEIGHT }}" alt="{{ smiley.SMILEY_CODE }}" title="{{ smiley.SMILEY_DESC }}" /></a>
+					{% endfor %}
+				{% endif %}
+
+				{% if S_SMILIES_ALLOWED and S_SHOW_SMILEY_LINK %}
+					<a class="button" href="{{ U_MORE_SMILIES }}" onclick="popup(this.href, 300, 350, '_phpbbsmilies'); return false;" title="{{ lang('MORE_SMILIES') }}">
+						<i class="icon fa-smile-o fa-fw" aria-hidden="true"></i>
+					</a>
+				{% endif %}
+			</div>
+
+			<div class="studio-center">
+				{{ BBCODE_STATUS }} :: {{ IMG_STATUS }} :: {{ FLASH_STATUS }} :: {{ URL_STATUS }} :: {{ SMILIES_STATUS }} :: {{ EMOJIS_STATUS }} :: {{ ATTACH_STATUS }}
+			</div>
+
+		</div>
+	</div>
+
+	<div class="panel bg2">
+		<div class="inner">
+
+			<fieldset class="submit-buttons">
+				<input class="button" id="comment" name="comment" type="submit" value="{{ lang('SUBMIT') }}">
+				<input class="button" id="reset" name="reset" type="reset" value="{{ lang('RESET') }}">
+				{{ S_FORM_TOKEN }}
+			</fieldset>
+
+		</div>
+	</div>
+</form>
+
+{% if not S_QUICK_REPLY %}
+	{% include 'overall_footer.html' %}
+{% endif %}

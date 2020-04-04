@@ -1,0 +1,40 @@
+					{% if not definition.INCLUDED_VBLOGUCPTABLESCSS %}
+						{% INCLUDECSS '@phpbbstudio_vblog/vblog_ucp_tables.css' %}
+						{% DEFINE INCLUDED_VBLOGUCPTABLESCSS = true %}
+					{% endif %}
+
+						<table>
+							<thead>
+								<tr>
+									<th class="studio-center">#</th>
+									<th class="studio-center">{{ lang('VBLOG_USER_GAL') }}</th>
+									<th class="studio-center">{{ lang('VBLOG_TITLE') }}</th>
+									<th class="studio-center">{{ lang('VBLOG_DESCRO') }}</th>
+									<th class="studio-center">{{ lang('VBLOG_TIME') }}</th>
+									{# <th class="studio-center">{{ lang('VBLOG_URL') }}</th> #}
+									<th class="studio-center">{{ lang('VBLOG_VIDEOS') }}</th>
+									<th class="studio-center">{{ lang('UCP_VBLOG_ACTIONS') }}</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for gallery in galleries %}
+									<tr>
+										<td>{{ gallery.GALLERY_ID }}</td>
+										<td>{{ gallery.USER_NAME }}</td>
+										<td>{{ gallery.TITLE }}</td>
+										<td class="studio-ellipsis" title="{{ gallery.DESCRIPTION }}">{{ gallery.DESCRIPTION }}</td>
+										<td>{{ gallery.TIME }}</td>
+										{# <td>{{ gallery.URL }}</td> #}
+										<td class="studio-center">{{ gallery.TOT_VIDEOS }}</td>
+										<td class="studio-center">
+											<a href="{{ gallery.U_EDIT }}"><i class="icon fa-cog fa-fw icon-green" aria-hidden="true" title="{{ lang('UCP_VBLOG_EDIT') }}"></i></a>
+										{% if gallery.TOT_VIDEOS %}
+											<i class="icon fa-ban fa-fw icon-red" aria-hidden="true" title="{{ lang('UCP_VBLOG_GALLERY_NO_DELETE') }}"></i>
+										{% else %}
+											<a href="{{ gallery.U_DELETE }}"><i class="icon fa-trash fa-fw icon-red" aria-hidden="true" title="{{ lang('UCP_VBLOG_DELETE') }}"></i></a>
+										{% endif %}
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
