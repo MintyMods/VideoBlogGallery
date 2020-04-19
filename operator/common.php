@@ -223,6 +223,17 @@ class common
 	}
 
 	/**
+	 * Check for some file extension existance in the URL
+	 *
+	 * @param  string    $url    URL to be parsed
+	 * @return bool              True if is an URL which leads to an image, false otherwise.
+	 */
+	public function is_image_url(string $url) : bool
+	{
+		return (bool) preg_match('/^.*\.(jpg|jpeg|png|gif|webp)$/i', $url);
+	}
+
+	/**
 	 * Recursively sum the bytes of the whole folder
 	 *
 	 * @param  string    $directory    The folder to be calculated

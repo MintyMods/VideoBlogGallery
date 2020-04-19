@@ -36,6 +36,7 @@ table {
 	border-spacing: 1px;
 	border-collapse: separate;
 }
+
 .th1 {
 	width: 4%;
 }
@@ -46,6 +47,14 @@ table {
 
 .th3 {
 	width: 50%;
+}
+
+.th4 {
+	width: 32%;
+}
+
+.th5 {
+	width: 55%;
 }
 
 th {

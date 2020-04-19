@@ -3,8 +3,8 @@
 	"type": "phpbb-extension",
 	"description": "phpBB video blog gallery",
 	"homepage": "https://www.phpbbstudio.com",
-	"version": "1.0.1-beta",
-	"time": "05-04-2020",
+	"version": "1.0.2-beta",
+	"time": "19-04-2020",
 	"license": "GPL-2.0-only",
 	"authors": [
 		{

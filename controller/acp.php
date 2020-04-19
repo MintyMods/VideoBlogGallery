@@ -209,15 +209,10 @@ class acp
 		}
 
 		/** Public videos */
-		$total_pub_videos = $this->video_helper->count_public_videos();
+		$total_pub_videos = $this->video_helper->count_videos(false);
 
 		/** Private videos */
-		$sql = 'SELECT COUNT(video_id) AS total
-			FROM ' . $this->vid_table . '
-			WHERE is_private > 0';
-		$result = $this->db->sql_query($sql);
-		$total_priv_videos = $this->db->sql_fetchfield('total');
-		$this->db->sql_freeresult($result);
+		$total_priv_videos = $this->video_helper->count_videos(true);
 
 		/** Total comments */
 		$sql = 'SELECT COUNT(id) AS total
@@ -318,42 +313,53 @@ class acp
 				$errors[] = $this->language->lang('ACP_UNSUPPORTED_CHARACTERS', $title_list);
 			}
 
-			/* Check emojis in URL cover and throw error in case */
-			if (preg_match_all('/[\x{10000}-\x{10FFFF}]/u', $studio_vblog_gallery_url_cover, $cover))
-			{
-				$character_list = implode('<br>', $cover[0]);
-				$errors[] = $this->language->lang('ACP_UNSUPPORTED_CHARACTERS', $character_list);
-			}
-
 			if (empty($studio_vblog_gallery_title))
 			{
 				$errors[] = $this->language->lang('ACP_VBLOG_NO_EMPTY_TITLE');
 			}
 
-			if (utf8_strlen($studio_vblog_gallery_title) >= 255)
+			if (utf8_strlen($studio_vblog_gallery_title) > 255)
 			{
 				$errors[] = $this->language->lang('ACP_VBLOG_GAL_TITLE_TOO_LONG');
 			}
 
-			if (utf8_strlen($studio_vblog_gallery_url_cover) >= 255)
-			{
-				$errors[] = $this->language->lang('ACP_VBLOG_GAL_COVER_TOO_LONG');
-			}
-
-			if (utf8_strlen($studio_vblog_gallery_description) >= 255)
+			/* The description of the gallery is not mandatory */
+			if (!empty($studio_vblog_gallery_description) && utf8_strlen($studio_vblog_gallery_description) > 255)
 			{
 				$errors[] = $this->language->lang('ACP_VBLOG_GAL_DESCRO_TOO_LONG');
 			}
 
-			/* Check and clean URL */
-			$valid = $this->common_helper->is_url($studio_vblog_gallery_url_cover);
-			if (!$valid)
+			/* URL for cover is not mandatory since it is being replaced by a placeholder in case */
+			if (!empty($studio_vblog_gallery_url_cover))
 			{
-				$errors[] = $this->language->lang('VBLOG_URL_INVALID');
-			}
-			else
-			{
-				$studio_vblog_gallery_url_cover = $this->common_helper->clean_url($studio_vblog_gallery_url_cover);
+				if (!$this->common_helper->is_image_url($studio_vblog_gallery_url_cover))
+				{
+					$errors[] = $this->language->lang('VBLOG_URL_INVALID_IMAGE_TYPE');
+				}
+
+				/* Check emojis in URL cover and throw error in case */
+				if (preg_match_all('/[\x{10000}-\x{10FFFF}]/u', $studio_vblog_gallery_url_cover, $cover))
+				{
+					$character_list = implode('<br>', $cover[0]);
+					$errors[] = $this->language->lang('ACP_UNSUPPORTED_CHARACTERS', $character_list);
+				}
+
+				if (utf8_strlen($studio_vblog_gallery_url_cover) > 255)
+				{
+					$errors[] = $this->language->lang('ACP_VBLOG_GAL_COVER_TOO_LONG');
+				}
+
+				/* Check and clean URL */
+				$valid = $this->common_helper->is_url($studio_vblog_gallery_url_cover);
+
+				if (!$valid)
+				{
+					$errors[] = $this->language->lang('VBLOG_URL_INVALID');
+				}
+				else
+				{
+					$studio_vblog_gallery_url_cover = $this->common_helper->clean_url($studio_vblog_gallery_url_cover);
+				}
 			}
 
 			/* If no errors, process the form data */
@@ -489,15 +495,24 @@ class acp
 						}
 					}
 
-					/* Check and clean URL */
-					$valid = $this->common_helper->is_url($vblog_category_url_cover);
-					if (!$valid)
+					/* URL for cover is not mandatory since it is being replaced by a placeholder in case */
+					if (!empty($vblog_category_url_cover))
 					{
-						$errors[] = $this->language->lang('VBLOG_URL_INVALID');
-					}
-					else
-					{
-						$vblog_category_url_cover = $this->common_helper->clean_url($vblog_category_url_cover);
+						/* Check and clean URL */
+						$valid = $this->common_helper->is_url($vblog_category_url_cover);
+						if (!$valid)
+						{
+							$errors[] = $this->language->lang('VBLOG_URL_INVALID');
+						}
+						else
+						{
+							$vblog_category_url_cover = $this->common_helper->clean_url($vblog_category_url_cover);
+						}
+
+						if (!$this->common_helper->is_image_url($vblog_category_url_cover))
+						{
+							$errors[] = $this->language->lang('VBLOG_URL_INVALID_IMAGE_TYPE');
+						}
 					}
 
 					/* Setup array of destination data for the form */

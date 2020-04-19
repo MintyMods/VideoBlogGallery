@@ -83,7 +83,7 @@ class embed implements EventSubscriberInterface
 		$event['configurator']->BBCodes->addCustom(
 			'[vblog owner={UINT} video={UINT} url={URL?} mimetype={TEXT?}]',
 			'<div class="studio-wrapper-bbcode">
-				<video oncontextmenu="return false;" controls preload="metadata">
+				<video oncontextmenu="return false;" controls controlsList="nodownload" preload="metadata">
 					<source src="{@url}" type="{@mimetype}">
 					<p>{L_VBLOG_NO_HTML5}</p>
 				</video>
@@ -162,6 +162,7 @@ class embed implements EventSubscriberInterface
 		$error = $event['error'];
 
 		$message = $event['message_parser']->message;
+
 		preg_match_all('/\[vblog(?:[^\]]+)owner=(\d+)/', $message, $matches);
 
 		foreach ($matches[1] as $id)
@@ -171,6 +172,7 @@ class embed implements EventSubscriberInterface
 				if (!$this->auth->acl_get('a_phpbbstudio_vblog') || !$this->auth->acl_get('m_phpbbstudio_vblog'))
 				{
 					$this->disable_vblog_bbcode = true;
+
 					$error[] = $this->language->lang('VBLOG_BBCODE_NOT_ALLOWED', $id);
 				}
 			}
@@ -196,7 +198,7 @@ class embed implements EventSubscriberInterface
 				$video = $this->video_helper->get_video_from_id($attributes['video']);
 
 				$attributes['mimetype'] = $video['mimetype'] ?? '';
-				$attributes['url']		= generate_board_url() . ($video['url'] ?? '');
+				$attributes['url']      = generate_board_url() . ($video['url'] ?? '');
 
 				return $attributes;
 			}

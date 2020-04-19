@@ -8,10 +8,15 @@
 				{% endif %}
 
 				<dl>
-					<dt><label for="vblog_file">{{ lang('UCP_VBLOG_UPLOADS') ~ lang('COLON') }}</label><br><span>{{ lang('UCP_VBLOG_UPLOADS_EXP') }}</span></dt>
+					<dt><label for="vblog_file">{{ lang('UCP_VBLOG_UPLOADS') ~ lang('COLON') }}</label>
+						<br>
+						<span>{{ lang('UCP_VBLOG_UPLOADS_EXP') }}</span>
+						<span>{{ lang('VBLOG_MOV_TO_MP4') ~ lang('COLON') }} <a href="https://cloudconvert.com/mov-to-mp4" target="_blank" rel="noopener noreferrer">{{ lang('VBLOG_MOV_TO_MP4_EXPLAIN') }}</a></span>
+					</dt>
 					<dd>
-						<input type="file" name="vblog_file" id="vblog_file" class="inputbox autowidth" accept=".mp4, .ogv, .ogg, .webm, .mov" value="{{ VBLOG_FILE }}" >
-						<!-- <input type="hidden" name="MAX_FILE_SIZE" value="50000000"> -->
+						<input type="file" name="vblog_file" id="vblog_file" class="inputbox autowidth" accept=".mp4, .ogv, .ogg, .webm, .mov" value="{{ VBLOG_FILE }}">
+						<br>
+						<span>{{ lang('VBLOG_MAX_FILESIZE') ~ lang('COLON') }} {{ (VBLOG_MAX_FILESIZE) ? VBLOG_MAX_FILESIZE ~ ' ' ~ lang('MIB'): lang('VBLOG_UNLIMITED') }}</span>
 					</dd>
 				</dl>
 
@@ -33,7 +38,7 @@
 					{% else %}
 						<div>
 							<dd>
-								<span style="color: #cccccc;"><strong>{{ lang('VBLOG_C_NONE') }}</strong></span>
+								<span class="error"><strong>{{ lang('VBLOG_C_NONE') }}</strong></span>
 							</dd>
 						</div>
 					{% endif %}
@@ -81,7 +86,7 @@
 					{% else %}
 						<div>
 							<dd>
-								<span style="color: #cccccc;"><strong>{{ lang('UCP_VBLOG_G_NONE') }}</strong></span>
+								<span class="error"><strong>{{ lang('UCP_VBLOG_G_NONE') }}</strong></span>
 							</dd>
 						</div>
 					{% endif %}
@@ -90,7 +95,7 @@
 				<dl>
 					<dt><label for="vblog_video_description">{{ lang('VBLOG_V_DESCRO') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_V_DESCRO_EXP') }} {{ lang('VBLOG_V_DESCRO_MARKUP') }}</span></dt>
 					<dd>
-						<textarea class="inputbox" style="height: 12px;" name="vblog_video_description" id="vblog_video_description" rows="7" cols="76" title="{{ lang('VBLOG_V_DESCRO_EXP') }}"  placeholder="{{ lang('VBLOG_COMMENTS_PLACEHOLDER') ~ lang('ELLIPSIS') }}">{{ VBLOG_V_DESCRO }}</textarea>
+						<textarea class="inputbox" style="height: 12px;" name="vblog_video_description" id="vblog_video_description" rows="7" cols="76" title="{{ lang('VBLOG_V_DESCRO_EXP') }}" placeholder="{{ lang('VBLOG_COMMENTS_PLACEHOLDER') ~ lang('ELLIPSIS') }}">{{ VBLOG_V_DESCRO }}</textarea>
 					</dd>
 				</dl>
 

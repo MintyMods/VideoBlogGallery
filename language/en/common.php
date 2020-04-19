@@ -35,20 +35,21 @@ $lang = array_merge($lang, [
 	'VBLOG_USERS'						=> 'vBloggers',
 	'VBLOG_GALLERY'						=> 'Gallery',
 	'VBLOG_CATEGORY'					=> 'Category',
+	'VBLOG_SEARCH'						=> 'Search',
 	'VBLOG_COVER'						=> 'Cover',
 	'VBLOG_URL_COVER'					=> 'Absolute URL of the cover',
 	'VBLOG_PRIORITY'					=> 'Priority',
-	'VBLOG_COVER_EXPLAIN'				=> 'The link to an image JPG, GIF or PNG',
-	'VBLOG_TITLE'						=> 'Title',
+	'VBLOG_COVER_EXPLAIN'				=> 'Not mandatory, can be left empty or the link must lead to an image type “<strong>JP(e)G</strong>, <strong>PNG</strong>, <strong>GIF</strong> otherwise <strong>WEBP</strong>”.',
 	'VBLOG_FORK_GAL_EXPLAIN'			=> 'The title of the default gallery <em>(mandatory)</em>.',
 	'VBLOG_FORK_URL_COVER_EXPLAIN'		=> 'The cover’s URL for the default gallery, leave it blank to get a random one.',
 	'VBLOG_FORK_DESCRO_EXPLAIN'			=> 'The description for the default gallery. You can also leave it blank.',
-	'VBLOG_PRIORITY_CAT_EXPLAIN'		=> 'The priority of your category, the higher the first!',
-	'VBLOG_CAT_TITLE_EXPLAIN'			=> 'The title of your category.',
+	'VBLOG_PRIORITY_CAT_EXPLAIN'		=> 'The priority of your category. The higher the priority, the earlier it will be listed.',
+	'VBLOG_TITLE'						=> 'Title',
+	'VBLOG_CAT_TITLE_EXPLAIN'			=> 'The title of the category.',
+	'VBLOG_GAL_TITLE_EXPLAIN'			=> 'The title of the gallery',
 
 	'VBLOG_FORK_USER_ID_EXPLAIN'		=> 'The default user for the video forks. If left to 0 the current user ID of the forker will be used which means the video will be forked to its own user vBlog. If you want to have a <samp>Bot alike user</samp> you need to create a devoted user on purpose and set its user ID here.',
 
-	'VBLOG_TITLE_EXPLAIN'				=> 'The title of your gallery',
 	'VBLOG_VIDEOS'						=> 'Videos',
 	'VBLOG_PUB_VIDEOS'					=> 'Public videos',
 	'VBLOG_PVT_VIDEOS'					=> 'Private videos',
@@ -67,6 +68,13 @@ $lang = array_merge($lang, [
 	'VBLOG_NO_DESCRO'					=> 'No description available',
 	'VBLOG_USER_GAL'					=> 'User',
 	'VBLOG_USER_GAL_ID'					=> 'ID',
+	'VBLOG_TOTAL_PUB_VIDEOS'			=> 'Total public videos',
+	'VBLOG_TOTAL_PVT_VIDEOS'			=> 'Total private videos',//not used yet
+	'VBLOG_MAX_FILESIZE'				=> 'Maximum filesize per video',
+	'VBLOG_UNLIMITED'					=> 'Unlimited',
+
+	'VBLOG_MOV_TO_MP4'					=> '<strong>Note</strong>, it is strongly suggested though to convert your video to a more suitable format before to upload it',
+	'VBLOG_MOV_TO_MP4_EXPLAIN'			=> 'Convert MOV to MP4',
 
 	// Used in ACP controller
 	'VBLOG_STATISTIC'					=> 'Statistic',
@@ -222,6 +230,7 @@ $lang = array_merge($lang, [
 	'VBLOG_NO_EMPTY_TITLE'				=> 'The title for the video can not be empty!',
 	'VBLOG_NO_EMPTY_CAT'				=> 'The category for the video can not be empty!',
 	'VBLOG_URL_INVALID'					=> 'The URL you specified is invalid.',
+	'VBLOG_URL_INVALID_IMAGE_TYPE'		=> 'The URL you specified does not seem to be an image!',
 
 	// Comments
 	'VBLOG_NO_AUTH_READ_COMMENTS'		=> 'You don’t have permission to read comments and / or be notified! Please ask the Board’s administrators.',

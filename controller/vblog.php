@@ -486,8 +486,11 @@ class vblog
 						}
 
 						/* Create the return url */
-						$this->helper->assign_meta_refresh_var(3, $u_return);
-						return $this->helper->message($this->language->lang('VBLOG_VIDEO_EDITED') . '<br><br>' . $this->language->lang('VBLOG_RETURN_TO_VIDEO', '<a href="' . $u_return . '">', '</a>'));
+						$new_video_params	= ['username' => $username, 'gallery_id' => $vblog_gallery_id, 'video_id' => $video_id];
+						$new_u_return		= !$vblog ? $this->helper->route('phpbbstudio_vgallery_controller', $new_video_params) : $this->helper->route('phpbbstudio_vblog_controller', $new_video_params);
+
+						$this->helper->assign_meta_refresh_var(3, $new_u_return);
+						return $this->helper->message($this->language->lang('VBLOG_VIDEO_EDITED') . '<br><br>' . $this->language->lang('VBLOG_RETURN_TO_VIDEO', '<a href="' . $new_u_return . '">', '</a>'));
 					}
 				}
 

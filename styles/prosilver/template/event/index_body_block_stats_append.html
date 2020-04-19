@@ -1,3 +1,3 @@
-{% if VBLOG_AUTH_VBLOG %}
-	<span> &bull; {{ lang('VBLOG_TOT_VIDEOS') }} <b>{{ VBLOG_TOT_VIDEOS }}</b></span>
+{% if VBLOG_AUTH_VGALLERY and VBLOG_TOT_PUB_VIDEOS %}
+	<span title="{{ lang('VBLOG_TOTAL_PUB_VIDEOS') }}"> &bull; {{ lang('VBLOG_TOTAL_PUB_VIDEOS') }} <strong>{{ VBLOG_TOT_PUB_VIDEOS }}</strong></span>
 {% endif %}

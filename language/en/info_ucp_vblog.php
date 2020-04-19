@@ -34,7 +34,7 @@ $lang = array_merge($lang, [
 	'VBLOG_FILE_EXISTS'					=> 'The filename you are attempting to upload already exists into your storage!',
 	// Upload form
 	'UCP_VBLOG_UPLOADS'					=> 'Upload a video from your machine',
-	'UCP_VBLOG_UPLOADS_EXP'				=> 'Allowed extensions are<br><samp>.mp4, .ogv, .ogg, webm, .mov</samp>',
+	'UCP_VBLOG_UPLOADS_EXP'				=> 'Allowed extensions are <samp>.mp4, .ogv, .ogg, webm, .mov</samp>.<br><br><strong>Note</strong>: the <samp>.mov</samp> files are not specific for the HTML5 video tag, they usually though can be played since are MP4 containers, except in Chrome, therefore to those files will be appended the file extension <samp>.mp4</samp>, not even this trick works though since it depends on the real encoding.',
 	'UCP_VBLOG_VIDEO_ADDED'				=> 'The video has been successfully added.',
 
 	'UCP_VBLOG_VIDEO_PROGRESS'			=> 'Your video upload is in progress. Do not close this window till the end.',

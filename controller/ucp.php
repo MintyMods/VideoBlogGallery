@@ -73,7 +73,7 @@ class ucp
 	protected $u_action;
 
 	/**
-	 * {@inheritdoc
+	 * {@inheritDoc}
 	 */
 	public function __construct(
 		\phpbb\auth\auth $auth,
@@ -189,10 +189,6 @@ class ucp
 
 			$upload->common_checks($file);
 
-			$vblog_owner = (int) $this->user->data['user_id'];
-			$videos_path = '/images/vblog/';
-			$copy_path	= $this->root_path . $videos_path . $vblog_owner;
-
 			$vblog_info = get_formatted_filesize($file->get('filesize'), false);
 
 			$vblog_size = (float) $vblog_info['value'] . ' ' .  (string) $vblog_info['unit'];
@@ -202,11 +198,15 @@ class ucp
 				$errors[] = implode('<br>', array_unique($file->error));
 			}
 
+			$vblog_owner = (int) $this->user->data['user_id'];
+			$copy_path   = $this->root_path . 'images/vblog/' . $vblog_owner;
+			$upload_name = $file->get('uploadname');
+
 			/**
 			 * Do not overwrite files nor allow to have an unique file for multiple cat/gals!
 			 * If the user wants to use the same video multiple times it should rename it locally prior to upload it again.
 			 */
-			if ($file->get('uploadname') != '' && file_exists($copy_path . '/' . $file->get('uploadname')))
+			if ($upload_name !== '' && file_exists($copy_path . '/' . $upload_name))
 			{
 				$errors[] =  $this->language->lang('VBLOG_FILE_EXISTS');
 			}
@@ -222,10 +222,24 @@ class ucp
 			{
 				$this->common_helper->make_vblog_dir($copy_path);
 
+				$videos_path = '/images/vblog/';
+
 				$file->move_file($copy_path, true);
-				$video_url = $videos_path . $vblog_owner . '/' . utf8_basename(rawurlencode($file->get('uploadname')));
-				$upload_name = $file->get('uploadname');
+				$video_url = $videos_path . $vblog_owner . '/' . utf8_basename(rawurlencode($upload_name));
+
 				$extension = $file->get('extension');
+
+				/* If the file is a QuickTime MOV file we append MP4 to it due to Chrome/Apple */
+				$check_ext = strtolower(substr($upload_name, - 4));
+
+				if ($check_ext === '.mov')
+				{
+					$upload_name = str_replace($check_ext, $check_ext . '.mp4', $upload_name);
+					$video_url   = $videos_path . $vblog_owner . '/' . utf8_basename(rawurlencode($upload_name));
+ 					$extension   = 'mp4';
+
+					rename($copy_path . '/' . $file->get('uploadname'), $copy_path . '/' . $upload_name);
+ 				}
 
 				/* Convert file extension to MIME type */
 				$mimes = new \Mimey\MimeTypes;
@@ -256,9 +270,6 @@ class ucp
 				/* Insert data in the videos table */
 				$sql = 'INSERT INTO ' . $this->vid_table . ' ' . $this->db->sql_build_array('INSERT', $vid_data);
 				$this->db->sql_query($sql);
-
-				/* Grasp the newly inserted video_id */
-				//$cat_video_id = $this->db->sql_nextid();
 
 				/* Increment counter for gallery */
 				$sql = 'SELECT tot_videos FROM ' . $this->gal_table . '
@@ -309,6 +320,8 @@ class ucp
 
 			'S_ERROR'				=> $s_errors,
 			'ERROR_MSG'				=> $s_errors ? implode('<br>', $errors) : '',
+
+			'VBLOG_MAX_FILESIZE'	=> $this->config['studio_vblog_max_filesize'] ?? '',
 
 			'VBLOG_FILE'			=> (string) $vblog_file,
 			'VBLOG_TITLE'			=> (string) $vblog_title,
@@ -583,21 +596,30 @@ class ucp
 						$errors[] = $this->language->lang('FORM_INVALID');
 					}
 
-					/* Check and clean URL */
-					$valid = $this->common_helper->is_url($vblog_gallery_url_cover);
-
-					if (!$valid)
-					{
-						$errors[] = $this->language->lang('VBLOG_URL_INVALID');
-					}
-					else
-					{
-						$vblog_gallery_url_cover = $this->common_helper->clean_url($vblog_gallery_url_cover);
-					}
-
 					if (empty($vblog_gallery_title))
 					{
 						$errors[] = $this->language->lang('VBLOG_NO_EMPTY_TITLE');
+					}
+
+					/* URL for cover is not mandatory since it is being replaced by a placeholder in case */
+					if (!empty($vblog_gallery_url_cover))
+					{
+						/* Check and clean URL */
+						$valid = $this->common_helper->is_url($vblog_gallery_url_cover);
+
+						if (!$valid)
+						{
+							$errors[] = $this->language->lang('VBLOG_URL_INVALID');
+						}
+						else
+						{
+							$vblog_gallery_url_cover = $this->common_helper->clean_url($vblog_gallery_url_cover);
+						}
+
+						if (!$this->common_helper->is_image_url($vblog_gallery_url_cover))
+						{
+							$errors[] = $this->language->lang('VBLOG_URL_INVALID_IMAGE_TYPE');
+						}
 					}
 
 					$data = [

@@ -234,7 +234,7 @@ class main implements EventSubscriberInterface
 			'VBLOG_AUTH_CAN_BBCODE'			=> $this->auth->acl_get('u_vblog_can_use_vblog_bbcode'),
 			'VBLOG_AUTH_CAN_READ_COMMENTS'	=> $this->auth->acl_get('u_vblog_can_read_comments'),
 			'VBLOG_AUTH_CAN_VOTE'			=> $this->auth->acl_get('u_vblog_can_vote'),
-			'VBLOG_TOT_VIDEOS'				=> $this->video_helper->count_public_videos(),
+			'VBLOG_TOT_PUB_VIDEOS'			=> $this->video_helper->count_videos(false),
 		]);
 	}
 

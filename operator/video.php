@@ -230,13 +230,14 @@ class video
 	/**
 	 * As per the method name o_O
 	 *
-	 * @return int    $total    The total amount
+	 * @param bool    $is_private    Whether to count public or private videos
+	 * @return int    $total         The total amount
 	 */
-	public function count_public_videos() : int
+	public function count_videos(bool $is_private) : int
 	{
 		$sql = 'SELECT COUNT(category) as total
 			FROM ' . $this->vid_table . '
-			WHERE is_private = 0';
+			WHERE is_private = ' . (int) $is_private;
 		$result = $this->db->sql_query($sql);
 		$total = $this->db->sql_fetchfield('total');
 		$this->db->sql_freeresult($result);

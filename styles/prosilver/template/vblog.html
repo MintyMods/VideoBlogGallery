@@ -141,7 +141,7 @@
 					{% if not video.IS_PRIVATE  %}
 					#}
 						<article>
-							<video oncontextmenu="return false;" controls preload="metadata">{# poster="../images/videos/imgs/cioccoluna.jpg" #}
+							<video oncontextmenu="return false;" controls controlsList="nodownload" preload="metadata">{# poster="../images/videos/imgs/cioccoluna.jpg" #}
 								<source src="{{ video.URL }}" type="{{ video.MIMETYPE }}">
 								<p>{{ lang('VBLOG_NO_HTML5') }}</p>
 							</video>
@@ -256,7 +256,7 @@
 		<div class="studio-wrapper">
 		{# https://stackoverflow.com/a/54038716 #}
 			<article class="studio-center">
-				<video oncontextmenu="return false;" controls preload="metadata">{# poster="../images/videos/imgs/cioccoluna.jpg" #}
+				<video oncontextmenu="return false;" controls controlsList="nodownload" preload="metadata">{# poster="../images/videos/imgs/cioccoluna.jpg" #}
 					<source src="{{ URL }}" type="{{ MIMETYPE }}">
 					<p>{{ lang('VBLOG_NO_HTML5') }}</p>
 				</video>

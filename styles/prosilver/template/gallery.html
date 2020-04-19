@@ -157,7 +157,7 @@
 								{{ (video.CATEGORY) ? video.CATEGORY : lang('VBLOG_NONE') }}
 							</h3>
 
-							<video oncontextmenu="return false;" controls preload="metadata">{# poster="../images/videos/imgs/cioccoluna.jpg" #}
+							<video oncontextmenu="return false;" controls controlsList="nodownload" preload="metadata">{# poster="../images/videos/imgs/cioccoluna.jpg" #}
 								<source src="{{ video.URL }}" type="{{ video.MIMETYPE }}">
 								<p>{{ lang('VBLOG_NO_HTML5') }}</p>
 							</video>
@@ -260,9 +260,9 @@
 		{% endif %}
 
 		<div class="studio-wrapper">
-		{# https://stackoverflow.com/a/54038716 #}
+		{# https://stackoverflow.com/a/54038716 and https://stackoverflow.com/a/43513678/13261726 #}
 			<article class="studio-center">
-				<video oncontextmenu="return false;" controls preload="metadata">{# poster="../images/videos/imgs/cioccoluna.jpg" #}
+				<video oncontextmenu="return false;" controls controlsList="nodownload" preload="metadata">{# poster="../images/videos/imgs/cioccoluna.jpg" #}
 					<source src="{{ URL }}" type="{{ MIMETYPE }}">
 					<p>{{ lang('VBLOG_NO_HTML5') }}</p>
 				</video>
@@ -449,7 +449,7 @@
 							<p></p>
 							<p title="{{ lang('VBLOG_CATEGORY') ~ lang('COLON') ~ ' ' ~ video.CATEGORY }}"><strong>{{ lang('VBLOG_CATEGORY') ~ lang('COLON') }}</strong> {{ video.CATEGORY }}</p>
 
-							<video oncontextmenu="return false;" controls preload="metadata">{# poster="../images/videos/imgs/cioccoluna.jpg" #}
+							<video oncontextmenu="return false;" controls controlsList="nodownload" preload="metadata">{# poster="../images/videos/imgs/cioccoluna.jpg" #}
 								<source src="{{ video.URL }}" type="{{ video.MIMETYPE }}">
 								<p>{{ lang('VBLOG_NO_HTML5') }}</p>
 							</video>
@@ -730,7 +730,7 @@
 					{% if not video.IS_PRIVATE  %}
 
 						<article>
-							<video oncontextmenu="return false;" controls preload="metadata">{# poster="../images/videos/imgs/cioccoluna.jpg" #}
+							<video oncontextmenu="return false;" controls controlsList="nodownload" preload="metadata">{# poster="../images/videos/imgs/cioccoluna.jpg" #}
 								<source src="{{ video.URL }}" type="{{ video.MIMETYPE }}">
 								<p>{{ lang('VBLOG_NO_HTML5') }}</p>
 							</video>
