@@ -56,7 +56,7 @@
 							<footer class="text">
 								<div>
 									<p><strong>{{ gallery.USER_NAME }}</strong> &bull; <strong>{{ gallery.TIME|date('d-m-Y H:i') }}</strong></p>
-									<p><strong>{{ lang('VBLOG_TOT_VIDEOS') ~ lang('COLON') }}</strong> 
+									<p><strong>{{ lang('VBLOG_TOT_VIDEOS') ~ lang('COLON') }}</strong>
 										{{ (gallery.TOT_VIDEOS) ? gallery.TOT_VIDEOS : lang('VBLOG_NONE') }}
 									</p>
 								<hr>
@@ -427,6 +427,8 @@
 				{% DEFINE INCLUDED_SWEETALERT209JS = true %}
 			{% endif %}
 
+			{% include '@phpbbstudio_vblog/video_filter.html' %}
+
 			<div class="action-bar top">
 				{% if pagination|length or TOTAL_USERS %}
 				<div class="pagination">
@@ -458,6 +460,14 @@
 								<p><strong>{{ video.USER_NAME }}</strong> &bull; <span title="{{ lang('VBLOG_POSTED_ON') }}">{{ video.TIME|date('d-m-Y H:i') }}</span></p>
 
 								<p><strong>{{ lang('VBLOG_TITLE') ~ lang('COLON') }}</strong> {{ video.TITLE }}</p>
+
+								<p>
+									<i class="icon fa-thumbs-up fa-fw icon-green" aria-hidden="true" title="{{ lang('VBLOG_LIKES') }}"></i>
+									<span><strong>{{ video.VIDEO_LIKES }}</strong></span>
+									&bull;
+									<i class="icon fa-thumbs-down fa-fw icon-red" aria-hidden="true" title="{{ lang('VBLOG_DISLIKES') }}"></i>
+									<span><strong>{{ video.VIDEO_DISLIKES }}</strong></span>
+								</p>
 
 								<p>
 									<i class="icon fa-eye fa-fw icon-blue" aria-hidden="true" title="{{ lang('VBLOG_VIDEO_VIEWS') }}"></i>
@@ -564,7 +574,7 @@
 										<div>
 											<p><strong>{{ gallery.USER_NAME }}</strong> &bull; <strong>{{ gallery.TIME|date('d-m-Y H:i') }}</strong></p>
 
-											<p><strong>{{ lang('VBLOG_PUB_VIDEOS') ~ lang('COLON') }}</strong> 
+											<p><strong>{{ lang('VBLOG_PUB_VIDEOS') ~ lang('COLON') }}</strong>
 												{{ (gallery.TOT_VIDEOS) ? gallery.TOT_VIDEOS : lang('VBLOG_NONE') }}
 											</p>
 
@@ -644,11 +654,11 @@
 
 							<footer class="text">
 								<div>
-									<p><strong>{{ lang('VBLOG_TOT_VIDEOS') ~ lang('COLON') }}</strong> 
+									<p><strong>{{ lang('VBLOG_TOT_VIDEOS') ~ lang('COLON') }}</strong>
 										{{ (category.TOT_VIDEOS) ? category.TOT_VIDEOS : lang('VBLOG_NONE') }}
 									</p>
 									{% if VBLOG_AUTH_ADM_MOD %}
-										<p><strong>{{ lang('VBLOG_PRIORITY') ~ lang('COLON') }}</strong> 
+										<p><strong>{{ lang('VBLOG_PRIORITY') ~ lang('COLON') }}</strong>
 											{{ (category.PRIORITY) ? category.PRIORITY : lang('VBLOG_NONE') }}
 										</p>
 									{% endif %}
@@ -802,6 +812,8 @@
 
 	{% else %}
 		<h2 class="studio-center">{{ VBLOG_MESSAGE }}</h2>
+
+		{% include '@phpbbstudio_vblog/video_filter.html' %}
 
 		<div class="panel">
 			<div class="inner studio-center">

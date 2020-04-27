@@ -75,7 +75,7 @@ class video
 	 * @param int      $video_id    The video identifier
 	 * @return bool    $video_id    Wheter or not the video exists
 	 */
-	public function get_video_id(int $video_id) : bool
+	public function get_video_id(int $video_id): bool
 	{
 		$sql = 'SELECT video_id
 			FROM ' . $this->vid_table . '
@@ -96,12 +96,12 @@ class video
 	 * @param int       $video_id      The video identifier
 	 * @return array    $row           The data row
 	 */
-	public function get_video(int $user_id, int $gallery_id, int $video_id) : array
+	public function get_video(int $user_id, int $gallery_id, int $video_id): array
 	{
 		$sql = 'SELECT v.*, s.id as subscribe_id
 			FROM ' . $this->vid_table . ' v
 			LEFT JOIN ' . $this->sub_table . ' s
-				ON v.video_id = s.video_id 
+				ON v.video_id = s.video_id
 					AND s.user_id = ' . (int) $this->user->data['user_id'] . '
 			WHERE v.user_id = ' . (int) $user_id . '
 				AND v.gallery_id = ' . (int) $gallery_id . '
@@ -122,7 +122,7 @@ class video
 	 * @param int       $start         Start of pagination
 	 * @return array    $rowset        The data rowset
 	 */
-	public function get_videos_from_gallery(int $user_id, int $gallery_id, int $limit, int $start) : array
+	public function get_videos_from_gallery(int $user_id, int $gallery_id, int $limit, int $start): array
 	{
 		$sql_array = [
 			'SELECT'	=> '*',
@@ -145,7 +145,7 @@ class video
 	 * @param int     $gallery_id    The gallery identifier
 	 * @return int    $total         The total amount
 	 */
-	public function count_videos_from_gallery(int $gallery_id) : int
+	public function count_videos_from_gallery(int $gallery_id): int
 	{
 		$sql = 'SELECT COUNT(gallery_id) as total
 			FROM ' . $this->vid_table . '
@@ -166,7 +166,7 @@ class video
 	 * @param int       $start         Start of pagination
 	 * @return array    $rowset        The data rowset
 	 */
-	public function get_public_videos_from_gallery(int $user_id, int $gallery_id, int $limit, int $start) : array
+	public function get_public_videos_from_gallery(int $user_id, int $gallery_id, int $limit, int $start): array
 	{
 		$sql_array = [
 			'SELECT'	=> '*',
@@ -189,7 +189,7 @@ class video
 	 * @param int     $gallery_id    The gallery identifier
 	 * @return int    $total         The total amount
 	 */
-	public function count_public_videos_from_gallery(int $gallery_id) : int
+	public function count_public_videos_from_gallery(int $gallery_id): int
 	{
 		$sql = 'SELECT COUNT(category) as total
 			FROM ' . $this->vid_table . '
@@ -206,17 +206,19 @@ class video
 	 * Returns all public videos data in descend time order
 	 * Note: the video priority is not implemented yet.
 	 *
-	 * @param int       $limit         Limit for pagination
-	 * @param int       $start         Start of pagination
-	 * @return array    $rowset        The data rowset
+	 * @param int       $limit     Limit for pagination
+	 * @param int       $start     Start of pagination
+	 * @param string    $where     The SQL WHERE statement
+	 * @param string    $order     The SQL ORDER BY statement
+	 * @return array    $rowset    The data rowset
 	 */
-	public function get_public_videos(int $limit, int $start) : array
+	public function get_public_videos(int $limit, int $start, string $where = '', string $order = ''): array
 	{
 		$sql_array = [
-			'SELECT'	=> '*',
+			'SELECT'	=> 'v.*',
 			'FROM'		=> [$this->vid_table => 'v'],
-			'WHERE'		=> 'v.is_private = 0',
-			'ORDER_BY'	=> 'v.priority DESC, v.time DESC',
+			'WHERE'		=> 'v.is_private = 0' . ($where ? ' AND ' . $where : ''),
+			'ORDER_BY'	=> $order ? $order : 'v.priority DESC, v.time DESC',
 		];
 
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
@@ -231,13 +233,14 @@ class video
 	 * As per the method name o_O
 	 *
 	 * @param bool    $is_private    Whether to count public or private videos
+	 * @param string  $where         The SQL WHERE statement
 	 * @return int    $total         The total amount
 	 */
-	public function count_videos(bool $is_private) : int
+	public function count_videos(bool $is_private, string $where = ''): int
 	{
-		$sql = 'SELECT COUNT(category) as total
-			FROM ' . $this->vid_table . '
-			WHERE is_private = ' . (int) $is_private;
+		$sql = 'SELECT COUNT(v.category) as total
+			FROM ' . $this->vid_table . ' v
+			WHERE v.is_private = ' . (int) $is_private . ($where ? ' AND ' . $where : '');
 		$result = $this->db->sql_query($sql);
 		$total = $this->db->sql_fetchfield('total');
 		$this->db->sql_freeresult($result);
@@ -251,7 +254,7 @@ class video
 	 * @param array    $video    The existing row of data of the gallery
 	 * @return array             Array of template data
 	 */
-	public function video_data(array $video) : array
+	public function video_data(array $video): array
 	{
 		return [
 			'VIDEO_ID'			=> $video['video_id'],
@@ -283,7 +286,7 @@ class video
 	 * @param int    $video_id    The video identifier
 	 * @return array              Video data array, empty array otherwise
 	 */
-	public function get_video_from_id(int $video_id) : array
+	public function get_video_from_id(int $video_id): array
 	{
 		$sql = 'SELECT *
 			FROM ' . $this->vid_table . '
@@ -304,7 +307,7 @@ class video
 	 * @param int       $tot_videos    The video gallery total videos prior of the operation
 	 * @return void
 	 */
-	public function delete_video_from_id(int $v_id, string $v_url, int $g_id, int $tot_videos) : void
+	public function delete_video_from_id(int $v_id, string $v_url, int $g_id, int $tot_videos): void
 	{
 		/* First we attempt to delete the video file */
 		if (file_exists($v_url) && unlink($v_url))
@@ -353,7 +356,7 @@ class video
 	 * @param int      $vblog_gallery_id    The target gallery identifier
 	 * @return void
 	 */
-	public function edit_video_from_id(array $new_g_data, int $video_id, int $gallery_id, int $tot_videos, int $vblog_gallery_id) : void
+	public function edit_video_from_id(array $new_g_data, int $video_id, int $gallery_id, int $tot_videos, int $vblog_gallery_id): void
 	{
 		/* Begin transaction */
 		$this->db->sql_transaction('begin');
@@ -406,7 +409,7 @@ class video
 	 * @return array    $u_return_to_fork    The parameters array to use for the route to the forked video
 	 *                                       if it has succeeded, empty array otherwise.
 	 */
-	public function fork_video(array $v_data, int $to_user_id) : array
+	public function fork_video(array $v_data, int $to_user_id): array
 	{
 		if (!$to_user_id)
 		{
@@ -456,7 +459,7 @@ class video
 				$to_gallery_id				= $row['gallery_id'] ?? 0;
 				$tot_videos					= $row['tot_videos'] ?? 0;
 
-				$to_gallery_title			= $this->config['studio_vblog_gallery_title'];// This one is mandatory in ACP
+				$to_gallery_title			= $this->config['studio_vblog_gallery_title'];				// This one is mandatory in ACP
 				$to_url_cover				= $this->config['studio_vblog_gallery_url_cover'] ?? '';
 				$to_gallery_description		= $this->config['studio_vblog_gallery_description'] ?? '';
 
@@ -505,8 +508,8 @@ class video
 					'time'				=> time(),
 					'is_private'		=> 0,						// public
 					'enable_comments'	=> 0,						// no
-					'max_comments'		=> 0,						// zero
-					'description'		=> '',						// null
+					'max_comments'		=> 0,						// unlimited
+					'description'		=> '',						// none
 					'category'			=> $v_data['category'],
 					'num_comments'		=> 0,
 					'views'				=> 0,
@@ -538,7 +541,7 @@ class video
 	 * @param int       $start      Start
 	 * @return array    $rowset     The array of datafor the videos
 	 */
-	public function get_all_videos_from_user_id(int $user_id, int $limit , int $start) : array
+	public function get_all_videos_from_user_id(int $user_id, int $limit , int $start): array
 	{
 		$sql = 'SELECT *
 			FROM ' . $this->vid_table . '
@@ -557,7 +560,7 @@ class video
 	 * @param int     $user_id    The user identifier
 	 * @return int    $total      The total of videos
 	 */
-	public function count_all_videos_from_user_id(int $user_id) : int
+	public function count_all_videos_from_user_id(int $user_id): int
 	{
 		$sql = 'SELECT COUNT(video_id) as total
 			FROM ' . $this->vid_table . '
@@ -603,7 +606,7 @@ class video
 	 * @param int    $video_id    The video identifier
 	 * @return void
 	 */
-	public function video_views_counter(int $video_id) : void
+	public function video_views_counter(int $video_id): void
 	{
 		if (
 			isset($this->user->data['session_page'])

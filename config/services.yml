@@ -26,6 +26,9 @@ services:
     phpbbstudio.vblog.controller.main:
         class: phpbbstudio\vblog\controller\main
 
+    phpbbstudio.vblog.controller.search:
+        class: phpbbstudio\vblog\controller\search
+
     phpbbstudio.vblog.operator.category:
         class: phpbbstudio\vblog\operator\category
 

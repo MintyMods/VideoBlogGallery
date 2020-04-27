@@ -154,6 +154,14 @@
 								<p><span title="{{ lang('VBLOG_POSTED_ON') }}">{{ video.TIME|date('d-m-Y H:i') }}</span></p>
 
 								<p>
+									<i class="icon fa-thumbs-up fa-fw icon-green" aria-hidden="true" title="{{ lang('VBLOG_LIKES') }}"></i>
+									<span><strong>{{ video.VIDEO_LIKES }}</strong></span>
+									&bull;
+									<i class="icon fa-thumbs-down fa-fw icon-red" aria-hidden="true" title="{{ lang('VBLOG_DISLIKES') }}"></i>
+									<span><strong>{{ video.VIDEO_DISLIKES }}</strong></span>
+								</p>
+
+								<p>
 									<i class="icon fa-eye fa-fw icon-blue" aria-hidden="true" title="{{ lang('VBLOG_VIDEO_VIEWS') }}"></i>
 									<span><strong>{{ video.NUM_VIEWS }}</strong></span>
 									&bull;

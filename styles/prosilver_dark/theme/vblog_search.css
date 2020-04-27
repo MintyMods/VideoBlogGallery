@@ -1,0 +1,22 @@
+/**
+ *
+ * phpBB Studio - Video blog gallery. An extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2020, phpBB Studio, https://www.phpbbstudio.com
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
+
+.vblog-search-panel {
+	margin-bottom: 4px;
+	padding: 5px 10px;
+}
+
+.vblog-search-border {
+	border: 1px solid #262525;
+	box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2), 0 4px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.vblog-hr-transparent {
+	border-top: 1px transparent;
+}

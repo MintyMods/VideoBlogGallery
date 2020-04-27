@@ -1,5 +1,10 @@
 # phpBB Studio - Video blog gallery
 
+#### v1.0.3-beta on 27-04-2020
+- Add collapsible search filters on main video page
+- Add votes references to main video page
+- Code housekeeping
+
 #### v1.0.2-beta on 19-04-2020
 - Fix return url's when editing
 - Fix URL cover insertion requirements

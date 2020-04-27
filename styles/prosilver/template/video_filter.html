@@ -1,0 +1,175 @@
+{% if not definition.INCLUDED_VBLOGSEARCHCSS %}
+	{% INCLUDECSS '@phpbbstudio_vblog/vblog_search.css' %}
+	{% DEFINE INCLUDED_VBLOGSEARCHCSS = true %}
+{% endif %}
+
+<h3>
+	{% spaceless %}
+		<i class="icon fa-search fa-fw" aria-hidden="true" title="{{ lang('SEARCH') }}"></i>
+		<span>{{ lang('SEARCH') }}</span>
+		<a class="right-box" href="" data-toggle-text="{{ lang('COLLAPSE_VIEW') }}" data-toggle-class="icon fa-minus-square-o fa-fw" onclick="phpbb.toggleDisplay('vblog_search', 0, 'block'); phpbb.ajaxCallbacks['toggle_link'].call(this); return false;">
+			<i class="icon fa-plus-square-o fa-fw" aria-hidden="true"></i>
+			<span>{{ lang('EXPAND_VIEW') }}</span>
+		</a>
+	{% endspaceless %}
+</h3>
+
+<form id="vblog_search" name="vblog_search" method="get" action="{{ path('phpbbstudio_vgallery_controller') }}">
+	<div class="vblog-search-panel vblog-search-border">
+
+		<div class="inner">
+			<div class="column1">
+				<h3>
+					<i class="icon fa-sort fa-fw" aria-hidden="true" title="{{ lang('VBLOG_ORDER') }}"></i>
+					{{ lang('VBLOG_ORDER') }}
+				</h3>
+
+				<fieldset>
+					<dl>
+						<dt>
+							<i class="icon fa-sort-numeric-desc fa-fw icon-purple" aria-hidden="true" title="{{ lang('VBLOG_SORT_BY') }}"></i>
+							<label for="sk">{{ lang('VBLOG_SORT_BY') }}</label><br><span>{{ lang('VBLOG_SORT_BY_EXPLAIN') }}</span>
+						</dt>
+						<dd>
+							<select id="sk" name="sk">
+								{% for value, title in SORT_KEYS %}
+									<option value="{{ value }}"{{ value == SORT_KEY ? ' selected' }}>{{ lang('VBLOG_FILTER_' ~ title|upper) }}</option>
+								{% endfor %}
+							</select>
+						</dd>
+					</dl>
+				</fieldset>
+			</div>
+
+			<div class="column2">
+				<h3>
+					<i class="icon fa-sort fa-fw" aria-hidden="true" title="{{ lang('VBLOG_ORDER') }}"></i>
+					{{ lang('VBLOG_ORDER') }}
+				</h3>
+
+				<fieldset>
+					<dl>
+						<dt>
+							<i class="icon fa-sort-alpha-desc fa-fw icon-purple" aria-hidden="true" title="{{ lang('VBLOG_SORT_DIR') }}"></i>
+							<label for="sd">{{ lang('VBLOG_SORT_DIR') }}</label><br><span>{{ lang('VBLOG_SORT_DIR_EXPLAIN') }}</span>
+						</dt>
+						<dd>
+							<select id="sd" name="sd">
+								{% for value, title in SORT_DIRS %}
+									<option value="{{ value }}"{{ value == SORT_DIR ? ' selected' }}>{{ lang(title) }}</option>
+								{% endfor %}
+							</select>
+						</dd>
+					</dl>
+				</fieldset>
+			</div>
+
+			<hr class="vblog-hr-transparent">
+
+			<div class="column1">
+				<h3>
+					<i class="icon fa-filter fa-fw" aria-hidden="true" title="{{ lang('VBLOG_FILTERS') }}"></i>
+					{{ lang('VBLOG_FILTERS') }}
+				</h3>
+
+				<fieldset>
+					<dl>
+						<dt>
+							<i class="icon fa-question fa-fw icon-purple" aria-hidden="true" title="{{ lang('VBLOG_VTITLE') }}"></i>
+							<label for="filter_title">{{ lang('VBLOG_VTITLE') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_WILD_CARDS') }}</span>
+						</dt>
+						<dd><input class="inputbox autowidth" id="filter_title" name="t" type="text" maxlength="255" value="{{ FILTER_TITLE }}"></dd>
+					</dl>
+
+					<dl>
+						<dt>
+							<i class="icon fa-thumbs-up fa-fw icon-green" aria-hidden="true" title="{{ lang('VBLOG_LIKES') }}"></i>
+							<label for="filter_likes">{{ lang('VBLOG_LIKES') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_FILTER_ZERO') }}</span>
+						</dt>
+						<dd><input class="inputbox autowidth" id="filter_likes" name="l" type="number" min="0" max="{{ FILTER_MAX_NUMBER }}" value="{{ FILTER_LIKES }}"></dd>
+					</dl>
+					<dl>
+						<dt>
+							<i class="icon fa-thumbs-down fa-fw icon-red" aria-hidden="true" title="{{ lang('VBLOG_DISLIKES') }}"></i>
+							<label for="filter_dislikes">{{ lang('VBLOG_DISLIKES') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_FILTER_ZERO') }}</span>
+						</dt>
+						<dd><input class="inputbox autowidth" id="filter_dislikes" name="dl" type="number" min="0" max="{{ FILTER_MAX_NUMBER }}" value="{{ FILTER_DISLIKES }}"></dd>
+					</dl>
+
+					<dl>
+						<dt>
+							<i class="icon fa-calendar fa-fw icon-blue" aria-hidden="true" title="{{ lang('VBLOG_DATE') }}"></i>
+							<label for="filter_days">{{ lang('VBLOG_DATE') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_DATE_EXPLAIN') }}</span>
+						</dt>
+						<dd>
+							<select id="filter_days" name="d">
+								{% for value, title in FILTER_DAYS_OPTIONS %}
+									<option value="{{ value }}"{{ value == FILTER_DAYS_SELECTED ? ' selected' }}>{{ lang(title) }}</option>
+								{% endfor %}
+							</select>
+						</dd>
+					</dl>
+				</fieldset>
+			</div>
+
+			<div class="column2">
+				<h3>
+					<i class="icon fa-filter fa-fw" aria-hidden="true" title="{{ lang('VBLOG_FILTERS') }}"></i>
+					{{ lang('VBLOG_FILTERS') }}
+				</h3>
+
+				<fieldset>
+
+					<dl>
+						<dt>
+							<i class="icon fa-user fa-fw icon-purple" aria-hidden="true" title="{{ lang('AUTHOR') }}"></i>
+							<label for="filter_author">{{ lang('AUTHOR') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_WILD_CARDS') }}</span>
+						</dt>
+						<dd><input class="inputbox autowidth" id="filter_author" name="u" type="text" maxlength="255" value="{{ FILTER_USERNAME }}"></dd>
+					</dl>
+					<dl>
+						<dt>
+							<i class="icon fa-eye fa-fw icon-blue" aria-hidden="true" title="{{ lang('VBLOG_VIDEO_VIEWS') }}"></i>
+							<label for="filter_views">{{ lang('VBLOG_VIDEO_VIEWS') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_FILTER_ZERO') }}</span>
+						</dt>
+						<dd><input class="inputbox autowidth" id="filter_views" name="v" type="number" min="0" max="{{ FILTER_MAX_NUMBER }}" value="{{ FILTER_VIEWS }}"></dd>
+					</dl>
+
+					<dl>
+						<dt>
+							<i class="icon fa-comments-o fa-fw icon-blue" aria-hidden="true" title="{{ lang('VBLOG_COMMENTS') }}"></i>
+							<label for="filter_comments">{{ lang('VBLOG_COMMENTS') ~ lang('COLON') }}</label><br><span>{{ lang('VBLOG_FILTER_ZERO') }}</span>
+						</dt>
+						<dd><input class="inputbox autowidth" id="filter_comments" name="c" type="number" min="0" max="{{ FILTER_MAX_NUMBER }}" value="{{ FILTER_NUM_COMMENTS }}"></dd>
+					</dl>
+					<dl>
+						<dt>&nbsp;</dt>
+						<dd>&nbsp;</dd>
+					</dl>
+				</fieldset>
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="inner studio-center">
+			<button class="button" id="submit" name="submit" type="submit" onclick="Swal.fire({title: '{{ lang('VBLOG_FILTER_SEARCHING')|e('js') }}', text: '{{ lang('VBLOG_FILTER_PROGRESS')|e('js') }}', onBeforeOpen: () => { Swal.showLoading(); }});">
+				<span>{{ lang('SUBMIT') }}</span>
+				<i class="icon fa-paper-plane fa-fw" aria-hidden="true"></i>
+			</button>
+
+			<button class="button" id="reset" name="reset" type="reset">
+				<span>{{ lang('RESET') }}</span>
+				<i class="icon fa-undo fa-fw" aria-hidden="true"></i>
+			</button>
+		</div>
+
+	</div>
+</form>
+
+{# Use JS to hide the filters, so they are still viewable when there is no JS #}
+<script>
+	(function() {
+		document.getElementById('vblog_search').style.display = 'none';
+	})();
+</script>

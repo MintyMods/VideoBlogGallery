@@ -38,7 +38,7 @@ $lang = array_merge($lang, [
 	'UCP_VBLOG_VIDEO_ADDED'				=> 'The video has been successfully added.',
 
 	'UCP_VBLOG_VIDEO_PROGRESS'			=> 'Your video upload is in progress. Do not close this window till the end.',
-	'UCP_VBLOG_VIDEO_UPLOADING'			=> 'Uploading...',
+	'UCP_VBLOG_VIDEO_UPLOADING'			=> 'Uploading…',
 
 	'UCP_VBLOG_VIDEO_SAVED'				=> 'Video has been saved successfully!',
 

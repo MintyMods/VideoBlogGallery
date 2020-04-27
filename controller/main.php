@@ -40,6 +40,9 @@ class main
 	/** @var \phpbb\request\request */
 	protected $request;
 
+	/** @var search */
+	protected $search;
+
 	/** @var \phpbb\template\template */
 	protected $template;
 
@@ -84,6 +87,7 @@ class main
 		\phpbb\log\log $log,
 		\phpbb\pagination $pagination,
 		\phpbb\request\request $request,
+		search $search,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
 		\phpbb\user_loader $user_loader,
@@ -104,6 +108,7 @@ class main
 		$this->log					= $log;
 		$this->pagination			= $pagination;
 		$this->request				= $request;
+		$this->search				= $search;
 		$this->template				= $template;
 		$this->user					= $user;
 		$this->user_loader			= $user_loader;
@@ -369,7 +374,11 @@ class main
 				$limit = (int) $this->config['studio_vblog_items_per_page'];
 				$start = $this->request->variable('start', 0);
 
-				$public_videos = $this->video_helper->get_public_videos($limit, $start);
+				/** Filters */
+				$where = $this->search->handle_filter();
+				$order = $this->search->handle_order();
+
+				$public_videos = $this->video_helper->get_public_videos($limit, $start, $where, $order);
 
 				if ($public_videos)
 				{
@@ -403,7 +412,7 @@ class main
 					]);
 				}
 
-				$total = $this->video_helper->count_videos(false);
+				$total = $this->video_helper->count_videos(false, $where);
 
 				// Set up pagination
 				$url = $this->helper->route('phpbbstudio_vgallery_pagination');
